@@ -1,24 +1,43 @@
-# README
+# raro-food
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Projeto prático para aulas dos fundamentos de modelagem de banco de dados.
 
-Things you may want to cover:
+## setup
 
-* Ruby version
+Antes de iniciar a aplicação, recomenda-se a execução da seguinte sequência de comandos:
 
-* System dependencies
+```bash
+rvm use 3.1.2
+cd raro-food
+bundle install
+rails db:create
+rails db:migrate
+rails db:seed
+```
 
-* Configuration
+Para iniciar o servidor, recomenda-se a utilização do comando `./bin/dev`, pois ele garante os assets serão todos devidamente procesasdos.
 
-* Database creation
+#### Alguns comandos utilizados para nossa aplicação:
 
-* Database initialization
+Verificar versão do ruby utilizada:
 
-* How to run the test suite
+```bash
+rvm use 3.1.2
+```
 
-* Services (job queues, cache servers, search engines, etc.)
+Verificar versão do Yarn
 
-* Deployment instructions
+```bash
+yarn -v
+```
 
-* ...
+Criando uma nova aplicação rails:
+
+```bash
+rails new raro_food -c=tailwind -d=mysql -j=esbuild
+```
+
+```bash
+cd raro_food
+bin/rails db:create db:migrate db:seed
+```
