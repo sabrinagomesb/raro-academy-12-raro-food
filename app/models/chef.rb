@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class Chef < ApplicationRecord
   belongs_to :user
-  belongs_to :approver, class_name: 'Administrator', foreign_key: 'approver_id'
+  belongs_to :approver, class_name: 'Administrator'
   belongs_to :address, inverse_of: :chef
 
   has_one :city, through: :address

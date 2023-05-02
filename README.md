@@ -41,3 +41,33 @@ rails new raro_food -c=tailwind -d=mysql -j=esbuild
 cd raro_food
 bin/rails db:create db:migrate db:seed
 ```
+
+#### Adicionando Rubocop
+
+No arquivo Gemfile:
+
+```ruby
+gem 'rubocop-rails', require: false
+```
+
+Na raiz do projeto crie um arquivo `.rubocop.yml` com o seguinte conteúdo:
+
+```yaml
+require: rubocop-rails
+
+AllCops:
+  NewCops: enable
+  TargetRubyVersion: 3.1.2
+```
+
+Ao executar o comando abaixo no terminal, serão listados os erros encontrados:
+
+```
+rubocop
+```
+
+Para corrigí-los, pode ser executado o comando:
+
+```
+rubocop -A
+```

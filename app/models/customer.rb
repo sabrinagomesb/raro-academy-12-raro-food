@@ -1,5 +1,6 @@
+# frozen_string_literal: true
+
 class Customer < ApplicationRecord
-  belongs_to :user
   belongs_to :user
 
   has_many :orders, dependent: :destroy, inverse_of: :customer

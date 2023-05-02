@@ -1,4 +1,6 @@
-filepath = ENV.fetch('FILEPATH', Rails.root.join('db', 'states_cities.json').to_s)
+# frozen_string_literal: true
+
+filepath = ENV.fetch('FILEPATH', Rails.root.join('db/states_cities.json').to_s)
 states = JSON.parse(File.read(filepath))
 
 states.each do |state|
@@ -6,7 +8,7 @@ states.each do |state|
 
   state['cities'].each do |city|
     City.find_or_create_by(name: city['name'], state: state_obj)
-    puts "Adicionando a cidade #{city['name']} ao estado #{state_obj.name}"
+    Rails.logger.debug { "Adicionando a cidade #{city['name']} ao estado #{state_obj.name}" }
   end
 end
 

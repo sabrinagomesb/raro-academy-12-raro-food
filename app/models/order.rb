@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class Order < ApplicationRecord
   belongs_to :customer, dependent: :destroy
-  belongs_to :delivery_address, class_name: 'Address', foreign_key: 'delivery_address_id'
+  belongs_to :delivery_address, class_name: 'Address'
 
   has_many :items, class_name: 'OrderItem', dependent: :destroy
   has_many :dishes, through: :items
