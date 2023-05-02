@@ -42,9 +42,42 @@ cd raro_food
 bin/rails db:create db:migrate db:seed
 ```
 
-#### Adicionando Rubocop
+### Adicionando Unit Test
 
-No arquivo Gemfile:
+Adicione o seguinte trecho no `Gemfile`:
+
+```ruby
+group :development, :test do
+  # ....
+  gem 'rspec-rails'
+  gem 'shoulda-matchers'
+  gem 'faker'
+end
+```
+
+Execute os seguintes comandos:
+
+```bash
+bin/rails generate rspec:install
+bin/rails db:migrate db:test:prepare
+bin/rails generate rspec:model State
+```
+
+No arquivo gerado `rails_helper.rb`
+
+```ruby
+#...
+Shoulda::Matchers.configure do |config|
+  config.integrate do |with|
+    with.test_framework :rspec
+    with.library :rails
+  end
+end
+```
+
+### Adicionando Rubocop
+
+No arquivo `Gemfile`:
 
 ```ruby
 gem 'rubocop-rails', require: false
@@ -62,12 +95,12 @@ AllCops:
 
 Ao executar o comando abaixo no terminal, serão listados os erros encontrados:
 
-```
+```bash
 rubocop
 ```
 
 Para corrigí-los, pode ser executado o comando:
 
-```
+```bash
 rubocop -A
 ```
