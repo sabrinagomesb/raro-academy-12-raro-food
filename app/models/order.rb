@@ -18,4 +18,6 @@ class Order < ApplicationRecord
     finished: 6,
     canceled: 7
   }, scopes: true, default: :started
+
+  validates :status, presence: { in: %i[started request preparing sent delivered finished canceled] }
 end
