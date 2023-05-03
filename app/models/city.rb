@@ -5,7 +5,5 @@ class City < ApplicationRecord
 
   validates :name, presence: true, length: { maximum: 255 }
 
-  scope :from_state_by_acronym, lambda { |acronym|
-    joins(:state).where(states: { acronym: })
-  }
+  scope :from_state_by_acronym, ->(acronym) { joins(:state).where(states: { acronym: }) }
 end
