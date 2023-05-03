@@ -81,6 +81,11 @@ No arquivo `Gemfile`:
 
 ```ruby
 gem 'rubocop-rails', require: false
+
+group :development do
+  # ...
+  gem 'rubocop-rails', require: false
+end
 ```
 
 Na raiz do projeto crie um arquivo `.rubocop.yml` com o seguinte conteúdo:
