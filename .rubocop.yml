@@ -1,4 +1,6 @@
-require: rubocop-rails
+require:
+  - rubocop-rails
+  - rubocop-rspec
 
 AllCops:
   NewCops: enable
@@ -6,3 +8,14 @@ AllCops:
 
 Style/Documentation:
   Enabled: false
+
+Rails/HasAndBelongsToMany:
+  Exclude:
+    - 'app/models/category.rb'
+    - 'app/models/dish.rb'
+
+Rails/UniqueValidationWithoutIndex:
+  Exclude:
+    - 'app/models/state.rb'
+    - 'app/models/dish.rb'
+    - 'app/models/category.rb'

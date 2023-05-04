@@ -49,9 +49,14 @@ Adicione o seguinte trecho no `Gemfile`:
 ```ruby
 group :development, :test do
   # ....
+  gem 'factory_bot_rails'
+  gem 'faker'
+end
+
+group :test do
+  # ...
   gem 'rspec-rails'
   gem 'shoulda-matchers'
-  gem 'faker'
 end
 ```
 
@@ -75,23 +80,62 @@ Shoulda::Matchers.configure do |config|
 end
 ```
 
+Crie um arquivo: `spec/support/factory_bot.rb` com o seguinte conteúdo:
+
+```ruby
+# frozen_string_literal: true
+
+RSpec.configure do |config|
+  config.include FactoryBot::Syntax::Methods
+end
+```
+
+Ative o carregamento automático do diretório de support descomentando a seguinte linha em seu `spec/rails_helper.rb`:
+
+```ruby
+Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
+```
+
+### Adicionar Coverage para Testes
+
+Adicione o seguinte trecho no `Gemfile` e execute o `bundle install`:
+
+```ruby
+group :test do
+  # ...
+  gem 'simplecov', require: false
+end
+```
+
+No início do arquivo `spec_helper.rb` acrescentar o seguinte trecho:
+
+```ruby
+# frozen_string_literal: true
+
+require 'simplecov'
+SimpleCov.start
+
+# ...
+```
+
 ### Adicionando Rubocop
 
 No arquivo `Gemfile`:
 
 ```ruby
-gem 'rubocop-rails', require: false
-
 group :development do
   # ...
   gem 'rubocop-rails', require: false
+  gem 'rubocop-rspec', require: false
 end
 ```
 
 Na raiz do projeto crie um arquivo `.rubocop.yml` com o seguinte conteúdo:
 
 ```yaml
-require: rubocop-rails
+require:
+  - rubocop-rails
+  - rubocop-rspec
 
 AllCops:
   NewCops: enable

@@ -10,4 +10,15 @@ class State < ApplicationRecord
   validates :name, :acronym, uniqueness: { case_sensitive: false }
 
   accepts_nested_attributes_for :cities, reject_if: proc { |attributes| attributes['name'].blank? }, allow_destroy: true
+
+  before_validation :normalize_name
+  before_create do
+    self.acronym = acronym.upcase
+  end
+
+  private
+
+  def normalize_name
+    self.name = name.downcase.titleize if name.present?
+  end
 end
