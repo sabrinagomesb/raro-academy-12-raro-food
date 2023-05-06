@@ -27,6 +27,8 @@ class Dish < ApplicationRecord
   private
 
   def can_unit_price_be_changed?
-    errors.add(:unit_price, 'unit price cannot be changed') if Dish.sold_by_dish(id).present?
+    return if OrderItem.order_items_by_dishes_on_finished_orders(id).blank?
+
+    errors.add(:unit_price, 'unit price cannot be changed')
   end
 end
