@@ -11,11 +11,14 @@ Style/Documentation:
 
 Rails/HasAndBelongsToMany:
   Exclude:
-    - 'app/models/category.rb'
-    - 'app/models/dish.rb'
+    - "app/models/category.rb"
+    - "app/models/dish.rb"
 
 Rails/UniqueValidationWithoutIndex:
   Exclude:
-    - 'app/models/state.rb'
-    - 'app/models/dish.rb'
-    - 'app/models/category.rb'
+    - "app/models/state.rb"
+    - "app/models/dish.rb"
+    - "app/models/category.rb"
+
+RSpec/MultipleExpectations:
+  Enabled: false

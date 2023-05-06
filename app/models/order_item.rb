@@ -8,8 +8,20 @@ class OrderItem < ApplicationRecord
   validates :unit_price, numericality: { greater_than: 0 }
   validate :can_add_item?, on: :create
 
+  before_validation :set_unit_price
   after_destroy :update_order_total_price
   after_save :update_order_total_price
+
+  delegate :active?, :unit_price, to: :dish, prefix: true
+
+  scope :order_items_by_dishes_on_finished_orders, lambda { |dish_id|
+                                                     joins(:order, :dish).where(dishes: { id: dish_id })
+                                                                         .where(orders: { status: :finished })
+                                                   }
+
+  def total_per_item
+    amount * unit_price
+  end
 
   private
 
@@ -19,5 +31,9 @@ class OrderItem < ApplicationRecord
 
   def update_order_total_price
     order.update_total_price
+  end
+
+  def set_unit_price
+    self.unit_price = dish.unit_price.to_f
   end
 end

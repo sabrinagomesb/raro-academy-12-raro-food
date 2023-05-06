@@ -20,10 +20,13 @@ class Order < ApplicationRecord
   }, scopes: true, default: :started
 
   validates :status, presence: { in: %i[started request preparing sent delivered finished canceled] }
+  validates :total_price, numericality: { is_greater_than_or_equal_to: 0 }, on: :update
 
   accepts_nested_attributes_for :delivery_address, :items, allow_destroy: true
 
   scope :started_between, ->(start_date, end_date) { started.where('created_at BETWEEN ? AND ?', start_date, end_date) }
+
+  delegate :name, :state, to: :city, prefix: true, allow_nil: true
 
   def update_total_price
     total = items.sum('amount * unit_price').to_f
