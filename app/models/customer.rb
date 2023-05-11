@@ -7,6 +7,7 @@ class Customer < ApplicationRecord
   has_many :requested_items, through: :orders, class_name: 'OrderItem', source: :items
   has_many :addresses, as: :addressable, dependent: :destroy
   has_many :telephones, as: :contactable, dependent: :destroy
+  has_many :cards, dependent: :destroy
 
   validates :birthday, presence: true
 

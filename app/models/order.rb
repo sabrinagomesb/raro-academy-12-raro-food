@@ -3,11 +3,13 @@
 class Order < ApplicationRecord
   belongs_to :customer
   belongs_to :delivery_address, class_name: 'Address'
+  belongs_to :coupon, optional: true
 
   has_many :items, class_name: 'OrderItem', dependent: :destroy
   has_many :dishes, through: :items
 
   has_one :city, through: :delivery_address
+  has_one :payment, dependent: :destroy
 
   enum :status, {
     started: 1,
