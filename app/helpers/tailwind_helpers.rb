@@ -36,7 +36,7 @@ module TailwindHelpers
   end
 
   def select_classes
-    'block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-red-600 sm:max-w-xs sm:text-sm sm:leading-6'
+    'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2'
   end
 
   def input_label
@@ -53,6 +53,14 @@ module TailwindHelpers
 
   def input_checkbox
     'ml-1 h-4 w-4 rounded border-gray-300 text-red-600 focus:ring-red-600'
+  end
+
+  def input_radio
+    'w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
+  end
+
+  def input_text_area
+    'block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500'
   end
 
   # Dropdown menu

@@ -14,7 +14,7 @@
 
   <div class="flex justify-evenly gap-4 mt-4">
     <%= link_to "Edit", edit_category_path(@category), class: btn_primary %>
-    <%= button_to "Delete", @category, method: :delete, class: btn_danger, data: { confirm: "Tem certeza?", turbo_confirm: "Tem certeza que deseja deletar esse category?" } %>
+    <%= button_to "Delete", @category, method: :delete, class: btn_danger, data: { confirm: "Are you sure?", turbo_confirm: "Are you sure you want delete this category?" } %>
   </div>
   <%= link_to "Back to categories", categories_path, class: btn_simple %>
 </div>
