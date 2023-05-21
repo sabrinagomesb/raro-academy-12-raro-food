@@ -100,6 +100,7 @@ GEM
       i18n (>= 1.8.11, < 2)
     globalid (1.1.0)
       activesupport (>= 5.0)
+    htmlbeautifier (1.4.2)
     i18n (1.13.0)
       concurrent-ruby (~> 1.0)
     iniparse (1.5.0)
@@ -279,6 +280,7 @@ DEPENDENCIES
   devise
   factory_bot_rails
   faker
+  htmlbeautifier
   jbuilder
   jsbundling-rails
   mysql2 (~> 0.5)
