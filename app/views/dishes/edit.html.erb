@@ -1,0 +1,9 @@
+<% content_for :title do %>
+  <span>
+    Edit dish:
+    <span class="font-light"> <%= @dish.name %>
+    </span>
+  </span>
+<% end %>
+
+<%= render "form", dish: @dish %>

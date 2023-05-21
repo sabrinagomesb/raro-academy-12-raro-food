@@ -1,0 +1,20 @@
+<% content_for :title do %>
+  <span>
+    Dish
+  </span>
+<% end %>
+
+<% content_for :new_button do %>
+  <%= link_to "New dish", new_dish_path, class: btn_primary %>
+<% end %>
+
+<div class="m-auto flex flex-col justify-between items-center bg-white shadow-lg rounded-lg overflow-hidden max-w-full p-6">
+
+  <%= render @dish %>
+
+  <div class="flex justify-evenly gap-4 mt-4">
+    <%= link_to "Edit", edit_dish_path(@dish), class: btn_primary %>
+    <%= button_to "Delete", @dish, method: :delete, class: btn_danger, data: { confirm: "Are you sure?", turbo_confirm: "Are you sure you want delete this dish?" } %>
+  </div>
+  <%= link_to "Back to dishes", dishes_path, class: btn_simple %>
+</div>

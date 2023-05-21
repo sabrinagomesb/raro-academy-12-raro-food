@@ -1,0 +1,87 @@
+<div class="m-auto flex flex-col justify-between items-center bg-white shadow-lg rounded-lg overflow-hidden max-w-4xl p-4 mt-4">
+  <%= form_with model: dish, class: "w-full" do |form| %>
+    <div class="w-100 flex flex-col gap-4" >
+      <%# name %>
+      <div class="sm:col-span-3">
+        <%= form.label :name, class: input_label  %>
+        <div class="mt-2">
+          <%= form.text_field :name, class: input_text, placeholder: "Type the new dish name" %>
+        </div>
+      </div>
+
+      <%# price %>
+      <div class="sm:col-span-3">
+        <%= form.label :unit_price, class: input_label  %>
+        <div class="mt-2">
+          <%= form.number_field :unit_price, class: input_text, placeholder: "Type the dish unit price" %>
+        </div>
+      </div>
+
+      <%# chef %>
+      <div class="sm:col-span-3">
+        <%= form.label 'Chef', class: input_label %>
+        <div class="mt-2">
+          <%= form.collection_select :chef_id, Chef.all, :id, proc { |chef| chef.user.name }, {prompt: 'Select a chef owner'}, {class: select_classes} %>
+        </div>
+      </div>
+
+      <%# description %>
+      <div class="sm:col-span-3">
+        <%= form.label :description, class: input_label  %>
+        <div class="mt-2">
+          <%= form.text_area :description, rows: 4, cols: 40, class: input_text_area, placeholder: "Type the dish description" %>
+        </div>
+      </div>
+
+      <div class="flex justify-evenly">
+        <%# available %>
+        <div class="flex gap-2">
+          <%= form.label :available, "Available?", class: input_label %><br>
+          <div class="flex gap-2 items-center">
+            <%= form.radio_button :available, true, class: input_radio %>
+            <%= form.label :true, 'YES', class: input_label %><br>
+            <%= form.radio_button :available, false, class: input_radio %>
+            <%= form.label :false, 'NO', class: input_label %>
+          </div>
+        </div>
+        <%# active %>
+        <div class="flex gap-2">
+          <%= form.label :active, "Active?", class: input_label %><br>
+          <div class="flex gap-2 items-center">
+            <%= form.radio_button :active, true, class: input_radio %>
+            <%= form.label :true, 'YES', class: input_label %><br>
+            <%= form.radio_button :active, false, class: input_radio %>
+            <%= form.label :false, 'NO', class: input_label %>
+          </div>
+        </div>
+      </div>
+
+      <%# categories %>
+      <%= form.label :categories, class: input_label %>
+      <div class="w-full grid grid-cols-4 pr-4">
+        <%= form.collection_check_boxes :category_ids, Category.all, :id, :name do |cb| %>
+          <%= cb.label(class: "flex items-center gap-2 py-4 ml-2 text-sm font-light text-gray-900 dark:text-gray-300 border border-gray-300 rounded-md px-2 bg-gray-100 cursor-pointer m-2 hover:bg-gray-300") do %>
+            <%= cb.check_box(class: "w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2") %>
+            <%= cb.text %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+
+    <% if dish.errors.any? %>
+      <div class="text-red-700 text-xs w-48 pt-4">
+        <h2><%= pluralize(dish.errors.count, "error") %> prohibited this dish from being saved:</h2>
+
+        <ul class="pt-2">
+          <% dish.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+    <div class="mt-6 flex items-center justify-center gap-x-6">
+      <%= link_to "Cancel", dishes_path, class: "text-sm font-semibold leading-6 text-gray-900" %>
+      <%= form.submit 'Save', class: btn_primary %>
+    </div>
+  <% end %>
+</div>
