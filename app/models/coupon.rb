@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Coupon < ApplicationRecord
-  belongs_to :creator, class_name: "Administrator"
+  belongs_to :creator, class_name: 'Administrator'
 
   has_many :orders, dependent: :destroy
 

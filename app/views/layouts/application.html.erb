@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html class="h-full bg-gray-50">
   <head>
-    <title>RaroFood</title>
+    <title>Raro Food</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.png">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -10,7 +11,33 @@
     <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
   </head>
 
-  <body>
-    <%= yield %>
+  <body class="h-full" data-turbo-suppress-warning="">
+    <div class="min-h-full flex flex-col justify-between">
+
+      <% if admin_signed_in? %>
+        <%= render 'layouts/navbar' %>
+      <% end %>
+
+      <main class="bg-zinc-200 min-h-full flex-auto">
+        <div class="mx-auto max-w-7xl py-8 sm:px-6 lg:px-8">
+          <% if !flash.empty? %>
+            <% flash.each do |type, message| %>
+              <div class="flex justify-between items-center bg-<%= type == 'notice' ? 'red' : 'red' %>-500 text-white px-4 py-2 rounded-lg mb-4">
+                <p><strong><%= type == 'notice' ? 'OK!' : 'Error' %></strong> | <%= message %></p>
+                <% current_path = request.original_url %>
+                <%= link_to current_path do %>
+                  <%= embedded_svg 'icon-delete', class: 'h-4 w-4 fill-white' %>
+                <% end %>
+              </div>
+            <% end %>
+          <% end %>
+
+          <%= yield %>
+
+        </div>
+      </main>
+      <%= render 'layouts/footer' %>
+    </div>
+
   </body>
 </html>

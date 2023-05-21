@@ -1,5 +1,14 @@
 # frozen_string_literal: true
 
+# Create user root admin
+Admin.create!(name: 'Root',
+              cpf: '11122233300',
+              password: 'root@123',
+              photo_url: 'https://github.githubassets.com/images/modules/profile/achievements/pull-shark-default.png',
+              email: 'root@root.com',
+              root: true)
+
+# Load States and Cities
 filepath = ENV.fetch('FILEPATH', Rails.root.join('db/states_cities.json').to_s)
 states = JSON.parse(File.read(filepath))
 

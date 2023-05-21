@@ -1,8 +1,21 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  resources :categories
 
-  # Defines the root path route ("/")
-  # root "articles#index"
+  devise_for :admins, controllers: {
+    registrations: "admins/registrations",
+    passwords: "admins/passwords"
+  }
+
+  authenticated :admin do
+    # root to: 'dashboard#index', as: :authenticated_root
+    root "categories#index"
+  end
+
+  unauthenticated do
+    as :admin do
+      root to: "devise/sessions#new", as: :unauthenticated_root
+    end
+  end
 end
