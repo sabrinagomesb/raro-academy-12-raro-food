@@ -1,3 +1,32 @@
 <div id="<%= dom_id category %>">
-  <h1><%= category.name %></h1>
+  <div class="my-4">
+    <h2 class="text-lg font-semibold text-gray-800 uppercase"><%= category.name %></h2>
+  </div>
 </div>
+
+<% if category.dishes.empty? %>
+  <div class="p-4 text-zinc-800 bg-white flex justify-center">
+    <strong>No dishes yet</strong>
+  </div>
+<% else %>
+  <table class="w-full whitespace-no-wrap">
+    <thead>
+      <tr class="w-full text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b bg-gray-100">
+        <th class="p-4 divide-x">Dish</th>
+        <th class="p-4 divide-x">Price</th>
+        <th class="p-4 divide-x">Link</th>
+      </tr>
+    </thead>
+    <tbody class="bg-white divide-y">
+      <% category.dishes.each do |dish| %>
+        <tr class="text-gray-700">
+          <td class="px-8 py-3"><%= dish.name %></td>
+          <td class="px-8 py-3"><%= dish.unit_price %></td>
+          <td class="py-8 py-3">
+            <%= link_to "More about this dish", dish_path(dish.id), class: btn_simple %>
+          </td>
+        </tr>
+      <% end %>
+    <% end%>
+  </tbody>
+</table>

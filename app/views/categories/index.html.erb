@@ -1,14 +1,42 @@
-<p style="color: green"><%= notice %></p>
+<% content_for :title do %>
+  <span>
+    Categories
+  </span>
+<% end %>
 
-<h1>Categories</h1>
+<% content_for :new_button do %>
+  <%= link_to "New Category", new_category_path, class: btn_primary %>
+<% end %>
 
-<div id="categories">
-  <% @categories.each do |category| %>
-    <%= render category %>
-    <p>
-      <%= link_to "Show this category", category %>
-    </p>
-  <% end %>
+<div id="categories" class="we-full overflow-hidden rounded-lg shadow-lg">
+  <div class="w-full overflow-x-auto">
+    <% if @categories.empty? %>
+      <div class="p-4 text-zinc-800 bg-white flex justify-center">
+        <strong>Sem resultados encontrado</strong>
+      </div>
+    <% else %>
+      <table class="w-full whitespace-no-wrap">
+        <thead>
+          <tr class="w-full text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b bg-gray-100">
+            <th class="p-4 divide-x">Name</th>
+            <th class="p-4 divide-x">Ações</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y">
+          <% @categories.each do |category| %>
+            <tr class="text-gray-700">
+              <td class="px-8 py-3"><%= category.name %></td>
+              <td class="py-3">
+                <div class="flex space-x-2">
+                  <%= link_to "More about category", category, class: btn_simple %>
+                  <%= link_to "Edit", edit_category_path(category.id), class: btn_secondary %>
+                  <%= button_to "Delete", category_path(category), method: :delete, data: { confirm: "Are you sure?", turbo_confirm: "Want delete this category?" }, class: btn_danger %>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        <% end%>
+      </tbody>
+    </table>
+  </div>
 </div>
-
-<%= link_to "New category", new_category_path %>
