@@ -1,10 +1,20 @@
-<p style="color: green"><%= notice %></p>
+<% content_for :title do %>
+  <span>
+    Category
+  </span>
+<% end %>
 
-<%= render @category %>
+<% content_for :new_button do %>
+  <%= link_to "New category", new_category_path, class: btn_primary %>
+<% end %>
 
-<div>
-  <%= link_to "Edit this category", edit_category_path(@category) %> |
-  <%= link_to "Back to categories", categories_path %>
+<div class="m-auto flex flex-col justify-between items-center bg-white shadow-lg rounded-lg overflow-hidden max-w-xl p-6">
 
-  <%= button_to "Destroy this category", @category, method: :delete %>
+  <%= render @category %>
+
+  <div class="flex justify-evenly gap-4 mt-4">
+    <%= link_to "Edit", edit_category_path(@category), class: btn_primary %>
+    <%= button_to "Delete", @category, method: :delete, class: btn_danger, data: { confirm: "Tem certeza?", turbo_confirm: "Tem certeza que deseja deletar esse category?" } %>
+  </div>
+  <%= link_to "Back to categories", categories_path, class: btn_simple %>
 </div>

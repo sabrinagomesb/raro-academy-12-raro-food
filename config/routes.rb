@@ -1,15 +1,14 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  resources :categories
+  resources :categories, :dishes
 
   devise_for :admins, controllers: {
-    registrations: "admins/registrations",
-    passwords: "admins/passwords"
-  }
+                        registrations: "admins/registrations",
+                        passwords: "admins/passwords",
+                      }
 
   authenticated :admin do
-    # root to: 'dashboard#index', as: :authenticated_root
     root "categories#index"
   end
 
