@@ -1,0 +1,48 @@
+<% content_for :title do %>
+  <span>
+    Orders
+  </span>
+<% end %>
+
+<% content_for :new_button do %>
+  <%= link_to "New Order", new_order_path, class: btn_primary %>
+<% end %>
+
+<div id="orders" class="we-full overflow-hidden rounded-lg shadow-lg">
+  <div class="w-full overflow-x-auto">
+    <% if @orders.empty? %>
+      <div class="p-4 text-zinc-800 bg-white flex justify-center">
+        <strong>Sem resultados encontrado</strong>
+      </div>
+    <% else %>
+      <table class="w-full whitespace-no-wrap">
+        <thead>
+          <tr class="w-full text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b bg-gray-100">
+            <th class="p-4 divide-x">Code</th>
+            <th class="p-4 divide-x">Customer</th>
+            <th class="p-4 divide-x">Status</th>
+            <th class="p-4 divide-x">Total Price</th>
+            <th class="p-4 divide-x">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y">
+          <% @orders.each do |order| %>
+            <tr class="text-gray-700">
+              <td class="px-8 py-3"><%= order.id %></td>
+              <td class="px-8 py-3"><%= order.customer.user.name %></td>
+              <td class="px-8 py-3"><%= order.status %></td>
+              <td class="px-8 py-3"><%= order.total_price %></td>
+              <td class="py-3">
+                <div class="flex space-x-2">
+                  <%= link_to "More about order", order, class: btn_simple %>
+                  <%= link_to "Edit", edit_order_path(order.id), class: btn_secondary %>
+                  <%= button_to "Delete", order_path(order), method: :delete, data: { confirm: "Are you sure?", turbo_confirm: "Want delete this order?" }, class: btn_danger %>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        <% end%>
+      </tbody>
+    </table>
+  </div>
+</div>

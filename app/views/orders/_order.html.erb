@@ -1,0 +1,53 @@
+<table id="<%= dom_id order %>" class="w-full whitespace-no-wrap">
+  <thead>
+    <tr class="w-full text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b bg-gray-100">
+      <th class="p-4 divide-x">Code</th>
+      <th class="p-4 divide-x">Customer</th>
+      <th class="p-4 divide-x">Status</th>
+      <th class="p-4 divide-x">Delivery Address</th>
+      <th class="p-4 divide-x">Freight Price</th>
+      <th class="p-4 divide-x">Total Price</th>
+      <% if order.coupon %>
+        <th class="p-4 divide-x">Coupon Code</th>
+        <th class="p-4 divide-x">Discount</th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody class="bg-white divide-y">
+    <tr class="text-gray-700">
+      <td class="px-8 py-3"><%= order.id %></td>
+      <td class="px-8 py-3"><%= order.customer.user.name %></td>
+      <td class="px-8 py-3"><%= order.status %></td>
+      <td class="px-8 py-3"><%= address_in_one_line order.delivery_address %></td>
+      <td class="py-8 py-3"><%= order.freight_price %></td>
+      <td class="py-8 py-3"><%= order.total_price %></td>
+      <% if order.coupon %>
+        <td class="py-8 py-3"><%= order.coupon.code %></td>
+        <td class="py-8 py-3"><%= order.coupon.total_discount %></td>
+      <% end %>
+    </tr>
+  </tbody>
+</table>
+
+<% if order.items.empty? %>
+  <span>Not have order items</span>
+<% else %>
+  <div class="w-full grid grid-cols-6 gap-4" >
+    <% order.items.each do |item| %>
+      <div class="flex flex-col max-w-full bg-gray-500 rounded rounded-md p-2 text-gray-50">
+        <div class="flex flex-row justify-between">
+          <span class="font-bold">Dish:</span>
+          <span><%= item.dish.name %></span>
+        </div>
+        <div class="flex flex-row justify-between">
+          <span class="font-bold">Price:</span>
+          <span><%= item.unit_price %></span>
+        </div>
+        <div class="flex flex-row justify-between">
+          <span class="font-bold">Amount:</span>
+          <span><%= item.amount %></span>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% end %>

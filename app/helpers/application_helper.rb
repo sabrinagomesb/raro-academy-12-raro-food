@@ -3,6 +3,11 @@
 module ApplicationHelper
   include TailwindHelpers
 
+  # Returns the address in a single line
+  def address_in_one_line(address)
+    "#{address.public_place}, #{address.number} - #{address.zip_code}. #{address.city.name}/#{address.city.state.acronym}"
+  end
+
   # SVG
   def embedded_svg(filename, options = {})
     assets = Rails.application.assets

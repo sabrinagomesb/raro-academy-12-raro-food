@@ -1,0 +1,50 @@
+<div class="m-auto flex flex-col justify-between items-center bg-white shadow-lg rounded-lg overflow-hidden max-w-4xl p-4 mt-4">
+  <%= form_with(model: order_item, url: form_url, method: form_method) do |form| %>
+
+    <div class="mt-4 flex justify-evenly gap-4">
+
+      <%# dish %>
+      <div class="sm:col-span-3">
+        <%= form.label 'Dish', class: input_label %>
+        <div class="mt-2">
+          <%= form.collection_select :dish_id, Dish.where(active: true, available: true), :id, :name, {}, { class: select_classes } %>
+        </div>
+      </div>
+
+      <%# amount %>
+      <div class="sm:col-span-3">
+        <%= form.label :amount, class: input_label  %>
+        <div class="mt-2">
+          <%= form.number_field :amount, class: input_text, placeholder: "How many dish do you want?", min: 1 %>
+        </div>
+      </div>
+
+      <%# order %>
+      <div class="sm:col-span-3">
+        <%= form.label :order_id, class: input_label %>
+        <div class="mt-2">
+          <%= form.number_field :order_id, class: input_text, value: @order.id, disabled: true %>
+          <%= form.hidden_field :order_id, value: @order.id %>
+        </div>
+      </div>
+    </div>
+
+    <% if order_item.errors.any? %>
+      <div style="color: red">
+        <h2><%= pluralize(order_item.errors.count, "error") %> prohibited this order_item from being saved:</h2>
+
+        <ul>
+          <% order_item.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="mt-8 flex items-center justify-center gap-x-6">
+      <%= link_to "Cancel", orders_path, class: "text-sm font-semibold leading-6 text-gray-900" %>
+      <%= form.submit 'Save', class: btn_primary %>
+    </div>
+
+  <% end %>
+</div>

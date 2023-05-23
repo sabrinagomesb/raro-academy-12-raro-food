@@ -1,0 +1,38 @@
+<div class="m-auto flex flex-col justify-between items-center bg-white shadow-lg rounded-lg overflow-hidden max-w-4xl p-4 mt-4">
+  <%= form_with model: @order, class: "w-full" do |form| %>
+    <div class="w-100 flex flex-col gap-4" >
+
+      <%# customer %>
+      <div class="sm:col-span-3">
+        <%= form.label 'Customer', class: input_label %>
+        <div class="mt-2">
+          <%= form.collection_select :customer_id, Customer.all, :id, proc { |customer| customer.user.name }, {prompt: 'Select a customer'}, {class: select_classes, id: 'customer-select'} %>
+        </div>
+      </div>
+
+      <%# customer address %>
+      <div class="sm:col-span-3">
+        <%= form.label 'Delivery address', class: input_label %>
+        <div class="mt-2">
+          <%= form.select :delivery_address_id, {}, { prompt: 'Select a customer address' }, { class: select_classes, id: 'address-select' } %>
+        </div>
+      </div>
+    </div>
+
+    <% if order.errors.any? %>
+      <div class="text-red-700 text-xs w-48 pt-4">
+        <h2><%= pluralize(order.errors.count, "error") %> prohibited this order from being saved:</h2>
+
+        <ul class="pt-2">
+          <% order.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+    <div class="mt-6 flex items-center justify-center gap-x-6">
+      <%= link_to "Cancel", orders_path, class: "text-sm font-semibold leading-6 text-gray-900" %>
+      <%= form.submit 'Save', class: btn_primary %>
+    </div>
+  <% end %>
+</div>

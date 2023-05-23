@@ -1,0 +1,100 @@
+<% content_for :title do %>
+  <span>
+    Edit order
+  </span>
+<% end %>
+
+<% content_for :new_button do %>
+  <span class="font-bold">
+    Status:
+  </span>
+  <span class="font-light">
+    <%= @order.status %>
+  </span>
+<% end %>
+
+<div class="m-auto flex flex-col justify-between items-center bg-white shadow-lg rounded-lg overflow-hidden max-w-4xl p-4 mt-4">
+  <%= form_with model: @order, class: "w-full" do |form| %>
+    <div class="w-100 flex flex-col gap-4" >
+      <%# customer %>
+      <div class="sm:col-span-3">
+        <%= form.label 'Customer', class: input_label %>
+        <div class="mt-2">
+          <%= form.collection_select :customer_id, Customer.all, :id, proc { |customer| customer.user.name }, {prompt: 'Select a customer'}, {class: select_classes, id: 'customer-select', disabled: true} %>
+        </div>
+      </div>
+
+      <%# customer address %>
+      <div class="sm:col-span-3">
+        <%= form.label 'Address', class: input_label %>
+        <div class="mt-2">
+          <%= form.select :delivery_address_id, options_for_select(@order.customer.addresses.map { |address| [address_in_one_line(address), address.id] }, @order.delivery_address_id), { prompt: 'Select an address' }, { class: select_classes, disabled: true } %>
+        </div>
+      </div>
+    </div>
+
+    <% if @order.errors.any? %>
+      <div class="text-red-700 text-xs w-48 pt-4">
+        <h2><%= pluralize(@order.errors.count, "error") %> prohibited this order from being saved:</h2>
+
+        <ul class="pt-2">
+          <% @order.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <% if @order.items.empty? %>
+      <div class="p-4 text-zinc-800 bg-white flex justify-center">
+        <strong>Order without items</strong>
+      </div>
+      <div class="flex justify-between items-center mb-4">
+        <h4 class="font-bold mb-4">Order's items</h4>
+        <%= link_to "Add item", new_order_item_path(order_id: @order.id), class: "text-sm font-semibold leading-6 text-gray-100 bg-gray-600 p-2 rounded rounded-md" %>
+      </div>
+    <% else %>
+      <div class="my-4 w-full p-8 bg-gray-50 rounded rounded-md">
+        <div class="flex justify-between items-center mb-4">
+          <h4 class="font-bold mb-4">Order's items</h4>
+          <%= link_to "Add item", new_order_item_url(order_id: @order.id), class: "text-sm font-semibold leading-6 text-gray-100 bg-gray-600 p-2 rounded rounded-md" %>
+        </div>
+        <table class="w-full whitespace-no-wrap">
+          <thead>
+            <tr class="w-full text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b bg-gray-100">
+              <th class="p-4 divide-x">Amount</th>
+              <th class="p-4 divide-x">Item</th>
+              <th class="p-4 divide-x">Unit Price</th>
+              <th class="p-4 divide-x">Total Price</th>
+              <th class="p-4 divide-x">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y">
+            <% @order.items.each do |item|  %>
+              <tr class="text-gray-700">
+                <td class="px-8 py-3"><%= item.amount %></td>
+                <td class="px-8 py-3"><%= item.dish.name %></td>
+                <td class="px-8 py-3"><%= item.unit_price %></td>
+                <td class="px-8 py-3"><%= item.amount * item.unit_price %></td>
+                <td class="py-3">
+                  <div class="flex space-x-2">
+                    <%= link_to "Edit", edit_order_item_path(order_id: item.order.id, id: item.id), class: btn_secondary %>
+                    <%= button_to "Delete", order_item_path(order_id: item.order.id, id: item.id), method: :delete, data: { confirm: "Are you sure?", turbo_confirm: "Want delete this item?" }, class: btn_danger %>
+                  </div>
+                </td>
+              </tr>
+            <% end%>
+          </tbody>
+        </table>
+      </div>
+    <% end %>
+    <div class="flex justify-between bg-gray-600 text-gray-100 p-4 w-full rounded rounded-md">
+      <span class="font-bold">Total</span>
+      <span><%= @order.total_price %></span>
+    </div>
+    <div class="mt-6 flex items-center justify-center gap-x-6">
+      <%= link_to "Cancel", orders_path, class: "text-sm font-semibold leading-6 text-gray-900" %>
+      <%= form.submit 'Save', class: btn_primary %>
+    </div>
+  <% end %>
+</div>
