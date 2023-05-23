@@ -3,8 +3,8 @@
 Rails.application.routes.draw do
   resources :categories, :dishes, :customers
 
-  resources :orders, params: :order_id do
-    resources :order_items, only: [:show, :edit, :new, :create, :update, :destroy], as: "items"
+  resources :orders do
+    resources :order_items, as: "items"
   end
 
   # Rota para os endereços do cliente

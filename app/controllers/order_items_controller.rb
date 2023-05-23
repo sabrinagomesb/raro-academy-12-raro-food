@@ -47,8 +47,7 @@ class OrderItemsController < ApplicationController
   end
 
   def destroy
-    # @order_item.destroy
-    order_item = OrderItem.find(params[:id])
+    @order_item.destroy
 
     respond_to do |format|
       format.html { redirect_to edit_order_url(@order), notice: "Order item #{@order_item.dish.name} was successfully destroyed." }
