@@ -1,3 +1,7 @@
-<h1>Editing order item</h1>
+<% content_for :title do %>
+  <span>
+    Edit order item
+  </span>
+<% end %>
 
-<%= render "form", order_item: @order_item %>
+<%= render "form", order_item: @order_item, form_method: :patch, form_url: :order_item %>

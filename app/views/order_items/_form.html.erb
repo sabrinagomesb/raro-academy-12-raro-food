@@ -1,5 +1,5 @@
 <div class="m-auto flex flex-col justify-between items-center bg-white shadow-lg rounded-lg overflow-hidden max-w-4xl p-4 mt-4">
-  <%= form_with(model: order_item, url: order_order_items_path) do |form| %>
+  <%= form_with(model: order_item, url: form_url, method: form_method) do |form| %>
 
     <div class="mt-4 flex justify-evenly gap-4">
 
@@ -23,7 +23,8 @@
       <div class="sm:col-span-3">
         <%= form.label :order_id, class: input_label %>
         <div class="mt-2">
-          <%= form.select :order_id, options_for_select([[@order.id, @order.id]]), {}, { class: select_classes, disabled: true } %>
+          <%= form.number_field :order_id, class: input_text, value: @order.id, disabled: true %>
+          <%= form.hidden_field :order_id, value: @order.id %>
         </div>
       </div>
     </div>
