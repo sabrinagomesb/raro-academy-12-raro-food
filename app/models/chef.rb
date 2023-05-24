@@ -2,7 +2,7 @@
 
 class Chef < ApplicationRecord
   belongs_to :user, dependent: :destroy
-  belongs_to :approver, class_name: "Administrator"
+  belongs_to :approver, class_name: 'Administrator'
   belongs_to :address, inverse_of: :chef
 
   has_one :city, through: :address
