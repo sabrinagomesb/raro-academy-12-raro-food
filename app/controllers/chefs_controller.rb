@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 class ChefsController < ApplicationController
+  include ControllersHelper
   before_action :set_chef, only: %i[show edit update destroy]
+  before_action :set_approver, only: %i[new create edit update]
 
   # GET /chefs or /chefs.json
   def index
@@ -14,8 +16,8 @@ class ChefsController < ApplicationController
   # GET /chefs/new
   def new
     @chef = Chef.new
-    @chef.build_user
     @chef.build_address
+    @chef.build_user
   end
 
   # GET /chefs/1/edit
@@ -27,7 +29,7 @@ class ChefsController < ApplicationController
 
     respond_to do |format|
       if @chef.save
-        format.html { redirect_to chef_url(@chef), notice: 'Chef was successfully created.' }
+        format.html { redirect_to chef_url(@chef), notice: "Chef was successfully created." }
         format.json { render :show, status: :created, location: @chef }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -40,7 +42,7 @@ class ChefsController < ApplicationController
   def update
     respond_to do |format|
       if @chef.update(chef_params)
-        format.html { redirect_to chef_url(@chef), notice: 'Chef was successfully updated.' }
+        format.html { redirect_to chef_url(@chef), notice: "Chef was successfully updated." }
         format.json { render :show, status: :ok, location: @chef }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -54,7 +56,7 @@ class ChefsController < ApplicationController
     @chef.destroy
 
     respond_to do |format|
-      format.html { redirect_to chefs_url, notice: 'Chef was successfully destroyed.' }
+      format.html { redirect_to chefs_url, notice: "Chef was successfully destroyed." }
       format.json { head :no_content }
     end
   end
@@ -65,12 +67,17 @@ class ChefsController < ApplicationController
     @chef = Chef.find(params[:id])
   end
 
+  def set_approver
+    @approver = Administrator.first
+  end
+
   # Only allow a list of trusted parameters through.
   def chef_params
-    params.require(:customer).permit(
+    params.require(:chef).permit(
       :user_id,
-      user_attributes: %i[name cpf email password],
-      address_attributes: %i[name public_place zip_code reference complement number neighborhood city_id]
+      :approver_id,
+      user_attributes: %i[id name cpf email password],
+      address_attributes: %i[name public_place zip_code reference complement number neighborhood city_id],
     )
   end
 end

@@ -23,7 +23,7 @@
           <td class="px-8 py-3"><%= dish.name %></td>
           <td class="px-8 py-3"><%= dish.unit_price %></td>
           <td class="py-8 py-3">
-            <%= link_to "More about this dish", dish_path(dish.id), class: btn_simple %>
+            <%= link_to "More about this", dish_path(dish.id), class: btn_simple %>
           </td>
         </tr>
       <% end %>

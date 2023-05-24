@@ -1,8 +1,7 @@
 <div class="m-auto flex flex-col justify-between items-center bg-white shadow-lg rounded-lg overflow-hidden max-w-4xl p-4 mt-4">
   <%= form_with model: chef, class: "w-full" do |form| %>
+    <%# Formulário para os atributos do User %>
     <%= form.fields_for :user do |user_fields| %>
-      <%# Formulário para os atributos do User %>
-
       <div class="w-100 flex flex-col gap-4" >
         <%# name %>
         <div class="sm:col-span-3">
@@ -37,52 +36,72 @@
             <%= user_fields.password_field :password, class: input_text, placeholder: "Type the new chef password with 6 digits" %>
           </div>
         </div>
-      <% end %>
+      </div>
+    <% end %>
 
-      <% if chef.new_record? %>
+    <%# Formulário para os atributos do Address %>
+    <%= form.fields_for :address do |address_fields| %>
+      <h2 class="font-bold text-center mt-2">Address</h2>
 
-        <%# Formulário para os atributos do Address %>
-        <%= form.fields_for :addresses do |address_fields| %>
-          <h2 class="font-bold text-center mt-2">Address</h2>
-          <div class="sm:col-span-3">
-            <%= address_fields.label :public_place, 'Public Place', class: input_label %>
-            <div class="mt-2">
-              <%= address_fields.text_field :public_place, class: input_text %>
-            </div>
-          </div>
-
-          <div class="sm:col-span-3">
-            <%= address_fields.label :number, 'Number', class: input_label %>
-            <div class="mt-2">
-              <%= address_fields.text_field :number, class: input_text %>
-            </div>
-          </div>
-
-          <div class="sm:col-span-3">
-            <%= address_fields.label :neighborhood, 'Neighborhood', class: input_label %>
-            <div class="mt-2">
-              <%= address_fields.text_field :neighborhood, class: input_text %>
-            </div>
-          </div>
-
-          <div class="sm:col-span-3">
-            <%= address_fields.label :zip_code, 'zip_code', class: input_label %>
-            <div class="mt-2">
-              <%= address_fields.text_field :zip_code, class: input_text %>
-            </div>
-          </div>
-
-          <div class="sm:col-span-3">
-            <%= address_fields.label :complement, 'Complement', class: input_label %>
-            <div class="mt-2">
-              <%= address_fields.text_field :complement, class: input_text %>
-            </div>
-          </div>
-        <% end%>
-
+      <div class="mt-2">
+        <%= address_fields.hidden_field :city_id, value: City.all.sample.id %>
       </div>
 
-    <% end %>
+      <div class="sm:col-span-3">
+        <%= address_fields.label :name, class: input_label %>
+        <div class="mt-2">
+          <%= address_fields.text_field :name, class: input_text %>
+        </div>
+      </div>
+
+      <div class="sm:col-span-3">
+        <%= address_fields.label :public_place, 'Public Place', class: input_label %>
+        <div class="mt-2">
+          <%= address_fields.text_field :public_place, class: input_text %>
+        </div>
+      </div>
+
+      <div class="sm:col-span-3">
+        <%= address_fields.label :number, 'Number', class: input_label %>
+        <div class="mt-2">
+          <%= address_fields.number_field :number, class: input_text %>
+        </div>
+      </div>
+
+      <div class="sm:col-span-3">
+        <%= address_fields.label :neighborhood, 'Neighborhood', class: input_label %>
+        <div class="mt-2">
+          <%= address_fields.text_field :neighborhood, class: input_text %>
+        </div>
+      </div>
+
+      <div class="sm:col-span-3">
+        <%= address_fields.label :zip_code, 'Zip Code', class: input_label %>
+        <div class="mt-2">
+          <%= address_fields.number_field :zip_code, class: input_text %>
+        </div>
+      </div>
+
+      <div class="sm:col-span-3">
+        <%= address_fields.label :complement, 'Complement', class: input_label %>
+        <div class="mt-2">
+          <%= address_fields.text_field :complement, class: input_text %>
+        </div>
+      </div>
+
+      <div class="sm:col-span-3">
+        <%= address_fields.label :reference, class: input_label %>
+        <div class="mt-2">
+          <%= address_fields.text_field :reference, class: input_text %>
+        </div>
+      </div>
+    <% end%>
+
+    <%# Formulário para os atributos do Chef %>
+    <div class="mt-2">
+      <%= form.hidden_field :approver_id, value: @approver.id %>
+    </div>
+
     <% if chef.errors.any? %>
       <div class="text-red-700 text-xs w-48 pt-4">
         <h2><%= pluralize(chef.errors.count, "error") %> prohibited this chef from being saved:</h2>
@@ -99,5 +118,5 @@
       <%= link_to "Cancel", chefs_path, class: "text-sm font-semibold leading-6 text-gray-900" %>
       <%= form.submit 'Save', class: btn_primary %>
     </div>
-  <% end %>
-</div>
+  </div>
+<% end %>

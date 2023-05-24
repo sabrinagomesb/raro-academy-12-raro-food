@@ -31,7 +31,7 @@
               <td class="px-8 py-3"><%= customer.user.email %></td>
               <td class="py-3">
                 <div class="flex space-x-2">
-                  <%= link_to "More about customer", customer, class: btn_simple %>
+                  <%= link_to "More about", customer, class: btn_simple %>
                   <%= link_to "Edit", edit_customer_path(customer.id), class: btn_secondary %>
                   <%= button_to "Delete", customer_path(customer), method: :delete, data: { confirm: "Are you sure?", turbo_confirm: "Want delete this order?" }, class: btn_danger %>
                 </div>
