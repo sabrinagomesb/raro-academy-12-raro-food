@@ -1,10 +1,20 @@
-<p style="color: green"><%= notice %></p>
+<% content_for :title do %>
+  <span>
+    Customer
+  </span>
+<% end %>
 
-<%= render @customer %>
+<% content_for :new_button do %>
+  <%= link_to "New customer", new_customer_path, class: btn_primary %>
+<% end %>
 
-<div>
-  <%= link_to "Edit this customer", edit_customer_path(@customer) %> |
-  <%= link_to "Back to customers", customers_path %>
+<div class="m-auto flex flex-col justify-between items-center bg-white shadow-lg rounded-lg overflow-hidden max-w-5xl p-6">
 
-  <%= button_to "Destroy this customer", @customer, method: :delete %>
+  <%= render @customer %>
+
+  <div class="flex justify-evenly gap-4 mt-4">
+    <%= link_to "Edit", edit_customer_path(@customer), class: btn_primary %>
+    <%= button_to "Delete", @customer, method: :delete, class: btn_danger, data: { confirm: "Are you sure?", turbo_confirm: "Are you sure you want delete this customer?" } %>
+  </div>
+  <%= link_to "Back to customers", customers_path, class: btn_simple %>
 </div>

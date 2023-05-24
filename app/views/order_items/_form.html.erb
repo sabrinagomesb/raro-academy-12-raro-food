@@ -31,7 +31,7 @@
       <%# remove %>
       <div class="sm:col-span-3 mt-7">
         <% if form_method == :patch %>
-          <%= button_to "Remove item", order_item_path(order_id: @order.id, id: @order_item.id), method: :delete, data: { confirm: "Are you sure?", turbo_confirm: "Want delete this item?" }, class: btn_simple  %>
+          <%= button_to "Remove item", order_item_path(order_id: @order_item.order.id, id: @order_item.id), method: :delete, data: { confirm: "Are you sure?", turbo_confirm: "Want delete this item?" }, class: btn_simple  %>
         <% end %>
       </div>
     </div>

@@ -13,12 +13,14 @@
         </div>
 
         <%# cpf %>
-        <div class="sm:col-span-3">
-          <%= user_fields.label :cpf, 'CPF', class: input_label %>
-          <div class="mt-2">
-            <%= user_fields.text_field :cpf, class: input_text, placeholder: "Type the new customer CPF wiht 11 digits" %>
+        <% if customer.new_record? %>
+          <div class="sm:col-span-3">
+            <%= user_fields.label :cpf, 'CPF', class: input_label %>
+            <div class="mt-2">
+              <%= user_fields.text_field :cpf, class: input_text, placeholder: "Type the new customer CPF wiht 11 digits" %>
+            </div>
           </div>
-        </div>
+        <% end%>
 
         <%# email %>
         <div class="sm:col-span-3">
@@ -45,43 +47,47 @@
         </div>
       </div>
 
-      <%# Formulário para os atributos do Address %>
-      <%= form.fields_for :addresses do |address_fields| %>
-        <h2 class="font-bold text-center mt-2">Address</h2>
-        <div class="sm:col-span-3">
-          <%= address_fields.label :public_place, 'Public Place', class: input_label %>
-          <div class="mt-2">
-            <%= address_fields.text_field :public_place, class: input_text %>
-          </div>
-        </div>
+      <% if customer.new_record? %>
 
-        <div class="sm:col-span-3">
-          <%= address_fields.label :number, 'Number', class: input_label %>
-          <div class="mt-2">
-            <%= address_fields.text_field :number, class: input_text %>
+        <%# Formulário para os atributos do Address %>
+        <%= form.fields_for :addresses do |address_fields| %>
+          <h2 class="font-bold text-center mt-2">Address</h2>
+          <div class="sm:col-span-3">
+            <%= address_fields.label :public_place, 'Public Place', class: input_label %>
+            <div class="mt-2">
+              <%= address_fields.text_field :public_place, class: input_text %>
+            </div>
           </div>
-        </div>
 
-        <div class="sm:col-span-3">
-          <%= address_fields.label :neighborhood, 'Neighborhood', class: input_label %>
-          <div class="mt-2">
-            <%= address_fields.text_field :neighborhood, class: input_text %>
+          <div class="sm:col-span-3">
+            <%= address_fields.label :number, 'Number', class: input_label %>
+            <div class="mt-2">
+              <%= address_fields.text_field :number, class: input_text %>
+            </div>
           </div>
-        </div>
 
-        <div class="sm:col-span-3">
-          <%= address_fields.label :zip_code, 'zip_code', class: input_label %>
-          <div class="mt-2">
-            <%= address_fields.text_field :zip_code, class: input_text %>
+          <div class="sm:col-span-3">
+            <%= address_fields.label :neighborhood, 'Neighborhood', class: input_label %>
+            <div class="mt-2">
+              <%= address_fields.text_field :neighborhood, class: input_text %>
+            </div>
           </div>
-        </div>
 
-        <div class="sm:col-span-3">
-          <%= address_fields.label :complement, 'Complement', class: input_label %>
-          <div class="mt-2">
-            <%= address_fields.text_field :complement, class: input_text %>
+          <div class="sm:col-span-3">
+            <%= address_fields.label :zip_code, 'zip_code', class: input_label %>
+            <div class="mt-2">
+              <%= address_fields.text_field :zip_code, class: input_text %>
+            </div>
           </div>
-        </div>
+
+          <div class="sm:col-span-3">
+            <%= address_fields.label :complement, 'Complement', class: input_label %>
+            <div class="mt-2">
+              <%= address_fields.text_field :complement, class: input_text %>
+            </div>
+          </div>
+        <% end%>
+
       </div>
 
     <% end %>
