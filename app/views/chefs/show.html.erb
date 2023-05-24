@@ -1,0 +1,20 @@
+<% content_for :title do %>
+  <span>
+    Chef
+  </span>
+<% end %>
+
+<% content_for :new_button do %>
+  <%= link_to "New chef", new_chef_path, class: btn_primary %>
+<% end %>
+
+<div class="m-auto flex flex-col justify-between items-center bg-white shadow-lg rounded-lg overflow-hidden max-w-5xl p-6">
+
+  <%= render @chef %>
+
+  <div class="flex justify-evenly gap-4 mt-4">
+    <%= link_to "Edit", edit_chef_path(@chef), class: btn_primary %>
+    <%= button_to "Delete", @chef, method: :delete, class: btn_danger, data: { confirm: "Are you sure?", turbo_confirm: "Are you sure you want delete this chef?" } %>
+  </div>
+  <%= link_to "Back to chefs", chefs_path, class: btn_simple %>
+</div>

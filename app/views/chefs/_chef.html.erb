@@ -1,0 +1,51 @@
+<div id="<%= dom_id chef %>">
+  <div class="my-4">
+    <h2 class="text-lg font-semibold text-gray-800 uppercase"><%= chef.user.name %></h2>
+  </div>
+</div>
+
+<table class="w-full whitespace-no-wrap">
+  <thead>
+    <tr class="w-full text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b bg-gray-100">
+      <th class="p-4 divide-x">Name</th>
+      <th class="p-4 divide-x">Email</th>
+      <th class="p-4 divide-x">CPF</th>
+      <th class="p-4 divide-x">Location</th>
+    </tr>
+  </thead>
+  <tbody class="bg-white divide-y">
+    <tr class="text-gray-700">
+      <td class="px-8 py-3"><%= chef.user.name %></td>
+      <td class="px-8 py-3"><%= chef.user.email %></td>
+      <td class="px-8 py-3"><%= chef.user.cpf %></td>
+      <td class="px-8 py-3"><%= "#{chef.address.city.name}/#{chef.address.city.state.name}"%></td>
+    </tr>
+  </tbody>
+</table>
+
+<% if chef.dishes.empty? %>
+  <span>Not have chef dishes</span>
+<% else %>
+  <div class="w-full grid grid-cols-4 gap-4 mt-4" >
+    <% chef.dishes.each do |dish| %>
+      <div class="flex flex-col max-w-full bg-gray-500 rounded rounded-md p-2 text-gray-50">
+        <div class="flex flex-row justify-between">
+          <span class="font-bold">Dish:</span>
+          <span><%= dish.name %></span>
+        </div>
+        <div class="flex flex-row justify-between">
+          <span class="font-bold">Available:</span>
+          <span><%= dish.available ? "YES" : "NO" %></span>
+        </div>
+        <div class="flex flex-row justify-between">
+          <span class="font-bold">Active:</span>
+          <span><%= dish.active ? "YES" : "NO" %></span>
+        </div>
+        <div class="flex flex-row justify-between">
+          <span class="font-bold">Price:</span>
+          <span><%= dish.unit_price %></span>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% end %>

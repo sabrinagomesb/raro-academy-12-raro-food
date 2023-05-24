@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ControllersHelper
   def full_errors(*objects)
     errors = {}

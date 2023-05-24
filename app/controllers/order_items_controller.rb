@@ -25,11 +25,11 @@ class OrderItemsController < ApplicationController
 
     respond_to do |format|
       if @order_item.save
-        format.html { redirect_to edit_order_url(@order), notice: "Order item was successfully created." }
-        format.json { render json: { message: "Order item successfully created", order_item: @order_item }, status: :created, location: @order_item }
+        format.html { redirect_to edit_order_url(@order), notice: 'Order item was successfully created.' }
+        format.json { render json: { message: 'Order item successfully created', order_item: @order_item }, status: :created, location: @order_item }
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: "Error: order item not created", errors: @order_item.errors, status: :unprocessable_entity }
+        format.json { render json: 'Error: order item not created', errors: @order_item.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -37,11 +37,11 @@ class OrderItemsController < ApplicationController
   def update
     respond_to do |format|
       if @order_item.update(order_item_params)
-        format.html { redirect_to edit_order_url(@order), notice: "Order item was successfully updated." }
-        format.json { render json: { message: "Order item successfully updated", order_item: @order_item }, status: :ok, location: @order_item }
+        format.html { redirect_to edit_order_url(@order), notice: 'Order item was successfully updated.' }
+        format.json { render json: { message: 'Order item successfully updated', order_item: @order_item }, status: :ok, location: @order_item }
       else
         format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: "Error: order item not updated", errors: @order_item.errors, status: :unprocessable_entity }
+        format.json { render json: 'Error: order item not updated', errors: @order_item.errors, status: :unprocessable_entity }
       end
     end
   end
