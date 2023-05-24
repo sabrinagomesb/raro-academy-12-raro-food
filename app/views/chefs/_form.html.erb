@@ -43,56 +43,59 @@
     <%= form.fields_for :address do |address_fields| %>
       <h2 class="font-bold text-center mt-2">Address</h2>
 
-      <div class="mt-2">
+      <div>
         <%= address_fields.hidden_field :city_id, value: City.all.sample.id %>
       </div>
 
-      <div class="sm:col-span-3">
-        <%= address_fields.label :name, class: input_label %>
-        <div class="mt-2">
-          <%= address_fields.text_field :name, class: input_text %>
-        </div>
-      </div>
+      <div class="w-100 flex flex-col gap-4" >
 
-      <div class="sm:col-span-3">
-        <%= address_fields.label :public_place, 'Public Place', class: input_label %>
-        <div class="mt-2">
-          <%= address_fields.text_field :public_place, class: input_text %>
+        <div class="sm:col-span-3">
+          <%= address_fields.label :name, class: input_label %>
+          <div class="mt-2">
+            <%= address_fields.text_field :name, class: input_text, placeholder: "Type the name of your address: optional." %>
+          </div>
         </div>
-      </div>
 
-      <div class="sm:col-span-3">
-        <%= address_fields.label :number, 'Number', class: input_label %>
-        <div class="mt-2">
-          <%= address_fields.number_field :number, class: input_text %>
+        <div class="sm:col-span-3">
+          <%= address_fields.label :public_place, 'Public Place', class: input_label %>
+          <div class="mt-2">
+            <%= address_fields.text_field :public_place, class: input_text, placeholder: "Type the public place." %>
+          </div>
         </div>
-      </div>
 
-      <div class="sm:col-span-3">
-        <%= address_fields.label :neighborhood, 'Neighborhood', class: input_label %>
-        <div class="mt-2">
-          <%= address_fields.text_field :neighborhood, class: input_text %>
+        <div class="sm:col-span-3">
+          <%= address_fields.label :number, 'Number', class: input_label %>
+          <div class="mt-2">
+            <%= address_fields.number_field :number, class: input_text, placeholder: "Type the address number." %>
+          </div>
         </div>
-      </div>
 
-      <div class="sm:col-span-3">
-        <%= address_fields.label :zip_code, 'Zip Code', class: input_label %>
-        <div class="mt-2">
-          <%= address_fields.number_field :zip_code, class: input_text %>
+        <div class="sm:col-span-3">
+          <%= address_fields.label :neighborhood, 'Neighborhood', class: input_label %>
+          <div class="mt-2">
+            <%= address_fields.text_field :neighborhood, class: input_text, placeholder: "Type the neighborhood." %>
+          </div>
         </div>
-      </div>
 
-      <div class="sm:col-span-3">
-        <%= address_fields.label :complement, 'Complement', class: input_label %>
-        <div class="mt-2">
-          <%= address_fields.text_field :complement, class: input_text %>
+        <div class="sm:col-span-3">
+          <%= address_fields.label :zip_code, 'Zip Code', class: input_label %>
+          <div class="mt-2">
+            <%= address_fields.number_field :zip_code, class: input_text, placeholder: "Type the zip code with 8 digits." %>
+          </div>
         </div>
-      </div>
 
-      <div class="sm:col-span-3">
-        <%= address_fields.label :reference, class: input_label %>
-        <div class="mt-2">
-          <%= address_fields.text_field :reference, class: input_text %>
+        <div class="sm:col-span-3">
+          <%= address_fields.label :complement, 'Complement', class: input_label %>
+          <div class="mt-2">
+            <%= address_fields.text_field :complement, class: input_text, placeholder: "Optional."  %>
+          </div>
+        </div>
+
+        <div class="sm:col-span-3">
+          <%= address_fields.label :reference, class: input_label %>
+          <div class="mt-2">
+            <%= address_fields.text_field :reference, class: input_text, placeholder: "Optional." %>
+          </div>
         </div>
       </div>
     <% end%>
