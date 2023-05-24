@@ -1,0 +1,49 @@
+<% content_for :title do %>
+  <span>
+    Chefs
+  </span>
+<% end %>
+
+<% content_for :new_button do %>
+  <%= link_to "New Chef", new_chef_path, class: btn_primary %>
+<% end %>
+
+<div id="chefs" class="we-full overflow-hidden rounded-lg shadow-lg">
+  <div class="w-full overflow-x-auto">
+    <% if @chefs.empty? %>
+      <div class="p-4 text-zinc-800 bg-white flex justify-center">
+        <strong>Sem resultados encontrado</strong>
+      </div>
+    <% else %>
+      <table class="w-full whitespace-no-wrap">
+        <thead>
+          <tr class="w-full text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b bg-gray-100">
+            <th class="p-4 w-1/6 divide-x">Name</th>
+            <th class="p-4 w-1/6 divide-x">Email</th>
+            <th class="p-4 w-1/6 divide-x">Location</th>
+            <th class="p-4 w-1/6 divide-x">Dishes amount</th>
+            <th class="p-4 w-2/6 divide-x">Actions</th>
+          </tr>
+        </thead>
+
+        <tbody class="bg-white divide-y">
+          <% @chefs.each do |chef| %>
+            <tr class="text-gray-700">
+              <td class="px-8 py-2"><%= chef.user.name %></td>
+              <td class="px-8 py-2"><%= chef.user.email %></td>
+              <td class="px-8 py-2"><%= "#{chef.address.city.name}/#{chef.address.city.state.name}"%></td>
+              <td class="px-8 py-2"><%= chef.dishes.size %></td>
+              <td class="py-3">
+                <div class="flex space-x-2">
+                  <%= link_to "More about", chef, class: btn_simple %>
+                  <%= link_to "Edit", edit_chef_path(chef.id), class: btn_secondary %>
+                  <%= button_to "Delete", chef_path(chef), method: :delete, data: { confirm: "Are you sure?", turbo_confirm: "Want delete this order?" }, class: btn_danger %>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% end %>
+  </div>
+</div>
