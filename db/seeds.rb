@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative './dishes_seed'
+
 # Create user root admin
 Admin.create!(name: 'Root',
               cpf: '11122233300',
@@ -125,27 +127,115 @@ customers = Customer.all
   chef.telephones << telephone
 end
 
+dishes_seed = {
+  'Spaghetti' => %w[Italian Pasta],
+  'Burger' => ['American', 'Fast Food', 'Beef'],
+  'Sushi' => %w[Japanese Seafood Rice],
+  'Tacos' => ['Mexican', 'Street Food', 'Beef'],
+  'Pizza' => %w[Italian Cheese Bread],
+  'Curry' => %w[Indian Spicy Rice],
+  'Salad' => %w[Healthy Vegetarian Fresh],
+  'Ramen' => %w[Japanese Noodles Soup],
+  'Steak' => %w[American Beef Grilled],
+  'Pasta' => ['Italian', 'Tomato Sauce', 'Cheese'],
+  'Sushi Rolls' => %w[Japanese Seafood Raw],
+  'Fried Chicken' => ['American', 'Fast Food', 'Chicken'],
+  'Fish and Chips' => %w[British Seafood Fried],
+  'Pad Thai' => %w[Thai Noodles Spicy],
+  'Pho' => %w[Vietnamese Soup Beef],
+  'Lasagna' => %w[Italian Pasta Cheese],
+  'Sandwich' => %w[American Bread Lunch],
+  'Dumplings' => %w[Chinese Steamed Pork],
+  'Shawarma' => ['Middle Eastern', 'Meat', 'Wrap'],
+  'Fajitas' => %w[Mexican Grilled Chicken],
+  'Sashimi' => %w[Japanese Seafood Raw],
+  'Tandoori Chicken' => %w[Indian Spicy Grilled],
+  'Gyros' => %w[Greek Meat Pita],
+  'Pancakes' => %w[American Breakfast Sweet],
+  'Poke Bowl' => %w[Hawaiian Seafood Rice],
+  'Philly Cheesesteak' => %w[American Beef Cheese],
+  'Ceviche' => %w[Peruvian Seafood Citrus],
+  'Ravioli' => %w[Italian Pasta Cheese],
+  'Dim Sum' => %w[Chinese Steamed Dumplings],
+  'Goulash' => %w[Hungarian Stew Beef],
+  'Biryani' => %w[Indian Rice Spicy],
+  'Miso Soup' => %w[Japanese Soup Tofu],
+  'Falafel' => ['Middle Eastern', 'Vegetarian', 'Chickpeas'],
+  'Crab Cakes' => %w[American Seafood Appetizer],
+  'Crepes' => %w[French Dessert Sweet],
+  'Philly Roll' => ['Sushi', 'Seafood', 'Cream Cheese'],
+  'Tacos al Pastor' => ['Mexican', 'Street Food', 'Pork'],
+  'Carbonara' => %w[Italian Pasta Egg],
+  'Hamburger' => %w[American Beef Bun],
+  'Chow Mein' => %w[Chinese Noodles Stir-Fry],
+  'Chicken Tikka Masala' => %w[Indian Spicy Chicken],
+  'Cobb Salad' => %w[American Salad Bacon],
+  'Sushi Burrito' => %w[Japanese Sushi Wrap],
+  'Tom Yum Soup' => %w[Thai Soup Spicy],
+  'Cannoli' => %w[Italian Dessert Pastry],
+  'Fish Tacos' => %w[Mexican Seafood Tortilla],
+  'Ratatouille' => %w[French Vegetarian Stew],
+  'Chicken and Waffles' => %w[American Chicken Breakfast],
+  'Tiramisu' => %w[Italian Dessert Coffee],
+  'Donuts' => %w[American Dessert Fried],
+  'Hummus' => ['Middle Eastern', 'Appetizer', 'Chickpeas'],
+  'Peking Duck' => %w[Chinese Duck Roasted],
+  'Chicken Parmesan' => %w[Italian Chicken Cheese],
+  'Moussaka' => %w[Greek Eggplant Baked],
+  'Gazpacho' => %w[Spanish Soup Cold],
+  'Chicken Satay' => %w[Thai Chicken Skewers],
+  'Couscous' => %w[Moroccan Grains Vegetables],
+  'Beef Stroganoff' => %w[Russian Beef Creamy],
+  'Pierogi' => %w[Polish Dumplings Potato],
+  'Baklava' => %w[Greek Dessert Nuts],
+  'Croissant' => %w[French Breakfast Pastry],
+  'Chicken Adobo' => %w[Filipino Chicken Vinegar],
+  'Poutine' => ['Canadian', 'Fries', 'Cheese Curds'],
+  'Guacamole' => %w[Mexican Dip Avocado],
+  'Shrimp and Grits' => %w[American Seafood Grits],
+  'Baba Ganoush' => ['Middle Eastern', 'Eggplant', 'Dip'],
+  'Beef Wellington' => %w[British Beef Pastry],
+  'Beignets' => %w[French Dessert Fried],
+  'Egg Rolls' => %w[Chinese Fried Vegetables],
+  'Fish Chowder' => ['New England', 'Seafood', 'Soup'],
+  'Ginger Beef' => %w[Canadian Beef Stir-Fry],
+  'Greek Salad' => %w[Greek Salad Feta],
+  'Gumbo' => %w[Louisiana Stew Sausage],
+  'Hot Pot' => %w[Chinese Soup Meat],
+  'Kebab' => ['Middle Eastern', 'Grilled', 'Meat'],
+  'Macaroni and Cheese' => %w[American Cheese Pasta],
+  'Mango Sticky Rice' => %w[Thai Dessert Mango],
+  'Paella' => %w[Spanish Rice Seafood],
+  'Potato Pancakes' => %w[Polish Potato Breakfast],
+  'Red Curry' => %w[Thai Curry Spicy],
+  'Samosas' => %w[Indian Appetizer Pastry],
+  'Scotch Eggs' => %w[British Egg Sausage],
+  'Shrimp Scampi' => %w[Italian Seafood Garlic],
+  'Sushi Pizza' => %w[Japanese Sushi Crust],
+  'Tikka Masala' => %w[Indian Curry Creamy],
+  'Tonkatsu' => %w[Japanese Pork Breaded],
+  'Tzatziki' => %w[Greek Dip Yogurt],
+  'Veggie Wrap' => %w[Vegetarian Wrap Vegetables],
+  'Wonton Soup' => %w[Chinese Soup Dumplings],
+  'Yakitori' => %w[Japanese Skewers Grilled],
+  'Zucchini Bread' => ['Baked Goods', 'Bread', 'Zucchini']
+}
+
 chefs = Chef.all
 
-# Create Categories
-50.times do
-  name = Faker::Commerce.unique.department(max: 5)
-  Category.create!(name:)
-end
-
-categories = Category.all
-
-# Create Dishes
-100.times do
-  name = Faker::Food.dish
+dishes_seed.each do |dish, categories|
+  name = dish
   description = Faker::Food.description
   unit_price = Faker::Number.decimal(l_digits: 2)
   chef = chefs.sample
   available = Faker::Boolean.boolean
   active = Faker::Boolean.boolean
 
-  dish = Dish.create!(name:, description:, unit_price:, available:, active:, chef:)
-  dish.categories << categories.sample(rand(1..5))
+  new_dish = Dish.create!(name:, description:, unit_price:, available:, active:, chef:)
+  categories.each do |category_name|
+    category = Category.find_or_create_by(name: category_name)
+    new_dish.categories << category
+  end
 end
 
 dishes_available = Dish.where(active: true).where(available: true)
@@ -154,22 +244,16 @@ dishes_available = Dish.where(active: true).where(available: true)
 100.times do
   customer = customers.sample
   delivery_address = customer.addresses.sample
-  status = 1
+  status = Order.statuses.keys.sample
   freight_price = Faker::Number.decimal(l_digits: 2)
   total_price = 0
   coupon = coupons.sample
 
-  Order.create!(customer:, delivery_address:, total_price:, freight_price:, status:, coupon:)
-end
+  order = Order.create!(customer:, delivery_address:, total_price:, freight_price:, status:, coupon:)
 
-orders = Order.all
-
-# Create Order Items
-orders.each do |order|
   dish = dishes_available.sample
   amount = Faker::Number.between(from: 1, to: 5)
   unit_price = dish.unit_price
-
   order.total_price = (unit_price * amount) + order.freight_price
 
   if order.coupon.present?
@@ -178,8 +262,11 @@ orders.each do |order|
     order.total_price = 0 if order.total_price.negative?
   end
 
-  OrderItem.create!(order:, dish:, amount:, unit_price:)
+  OrderItem.create!(order_id: order.id, dish_id: dish.id, amount:, unit_price:)
+  order.save!
 end
+
+orders = Order.all
 
 # Create Cards
 100.times do
