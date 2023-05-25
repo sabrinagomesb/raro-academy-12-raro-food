@@ -55,35 +55,35 @@
           <div class="sm:col-span-3">
             <%= address_fields.label :public_place, 'Public Place', class: input_label %>
             <div class="mt-2">
-              <%= address_fields.text_field :public_place, class: input_text %>
+              <%= address_fields.text_field :public_place, class: input_text, placeholder: "Type the public place." %>
             </div>
           </div>
 
           <div class="sm:col-span-3">
             <%= address_fields.label :number, 'Number', class: input_label %>
             <div class="mt-2">
-              <%= address_fields.text_field :number, class: input_text %>
+              <%= address_fields.text_field :number, class: input_text, placeholder: "Type the address number." %>
             </div>
           </div>
 
           <div class="sm:col-span-3">
             <%= address_fields.label :neighborhood, 'Neighborhood', class: input_label %>
             <div class="mt-2">
-              <%= address_fields.text_field :neighborhood, class: input_text %>
+              <%= address_fields.text_field :neighborhood, class: input_text, placeholder: "Type the neighborhood." %>
             </div>
           </div>
 
           <div class="sm:col-span-3">
             <%= address_fields.label :zip_code, 'Zip Code', class: input_label %>
             <div class="mt-2">
-              <%= address_fields.text_field :zip_code, class: input_text %>
+              <%= address_fields.text_field :zip_code, class: input_text, placeholder: "Type the zip code with 8 digits." %>
             </div>
           </div>
 
           <div class="sm:col-span-3">
             <%= address_fields.label :complement, 'Complement', class: input_label %>
             <div class="mt-2">
-              <%= address_fields.text_field :complement, class: input_text %>
+              <%= address_fields.text_field :complement, class: input_text, placeholder: "Optional."  %>
             </div>
           </div>
         <% end%>

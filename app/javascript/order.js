@@ -26,11 +26,11 @@ function addressRequest(customerId) {
 
   request.onload = function () {
     if (request.status >= 200 && request.status < 400) {
-      var addresses = JSON.parse(request.responseText)
+      let addresses = JSON.parse(request.responseText)
       customerAddressSelect.innerHTML = ""
 
       addresses.forEach(function (address) {
-        var option = document.createElement("option")
+        let option = document.createElement("option")
         option.value = address.id
         option.textContent = `${address.name}: ${address.public_place}, ${address.number} - Reference: ${address.reference}`
         customerAddressSelect.appendChild(option)

@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require_relative './dishes_seed'
-
 # Create user root admin
 Admin.create!(name: 'Root',
               cpf: '11122233300',
