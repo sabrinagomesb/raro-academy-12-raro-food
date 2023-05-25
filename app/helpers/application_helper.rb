@@ -3,6 +3,11 @@
 module ApplicationHelper
   include TailwindHelpers
 
+  # Format to dolar currency
+  def usa_currancy(number)
+    number_to_currency(number, unit: '$', precision: 2, delimiter: ',', format: '%u%n')
+  end
+
   # Returns the address in a single line
   def address_in_one_line(address)
     "#{address.public_place}, #{address.number} - #{address.zip_code}. #{address.city.name}/#{address.city.state.acronym}"

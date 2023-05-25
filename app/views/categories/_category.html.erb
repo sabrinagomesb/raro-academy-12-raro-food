@@ -21,7 +21,7 @@
       <% category.dishes.each do |dish| %>
         <tr class="text-gray-700">
           <td class="px-8 py-3"><%= dish.name %></td>
-          <td class="px-8 py-3"><%= dish.unit_price %></td>
+          <td class="px-8 py-3"><%= usa_currancy(dish.unit_price) %></td>
           <td class="py-8 py-3">
             <%= link_to "More about this", dish_path(dish.id), class: btn_simple %>
           </td>

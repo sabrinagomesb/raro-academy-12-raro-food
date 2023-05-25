@@ -3,23 +3,23 @@
 module TailwindHelpers
   # Buttons classes
   def btn_search
-    'bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md cursor-pointer'
+    'bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md cursor-pointer transition duration-300 ease-in-out'
   end
 
   def btn_primary
-    'bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md cursor-pointer'
+    'bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md cursor-pointer transition duration-300 ease-in-out'
   end
 
   def btn_secondary
-    'bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded-md cursor-pointer'
+    'bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded-md cursor-pointer transition duration-300 ease-in-out'
   end
 
   def btn_danger
-    'bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md cursor-pointer'
+    'bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md cursor-pointer transition duration-300 ease-in-out'
   end
 
   def btn_simple
-    'text-red-500 hover:text-red-700 font-bold p-2'
+    'text-red-500 hover:text-red-700 font-bold p-2 transition duration-300 ease-in-out'
   end
 
   # Forms classes
@@ -57,6 +57,10 @@ module TailwindHelpers
 
   def input_radio
     'w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
+  end
+
+  def label_tag
+    'bg-zinc-600 text-gray-200 rounded rounded-lg p-2 mr-2 hover:bg-zinc-800 cursor-pointer transition duration-300 ease-in-out'
   end
 
   def input_text_area

@@ -8,7 +8,7 @@
   <%= link_to "New Customer", new_customer_path, class: btn_primary %>
 <% end %>
 
-<div id="customers" class="we-full overflow-hidden rounded-lg shadow-lg">
+<div id="customers" class="w-full overflow-hidden rounded-lg shadow-lg">
   <div class="w-full overflow-x-auto">
     <% if @customers.empty? %>
       <div class="p-4 text-zinc-800 bg-white flex justify-center">
@@ -20,6 +20,7 @@
           <tr class="w-full text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b bg-gray-100">
             <th class="p-4 divide-x">Name</th>
             <th class="p-4 divide-x">Email</th>
+            <th class="p-4 divide-x">Orders amount</th>
             <th class="p-4 divide-x">Actions</th>
           </tr>
         </thead>
@@ -29,6 +30,7 @@
             <tr class="text-gray-700">
               <td class="px-8 py-3"><%= customer.user.name %></td>
               <td class="px-8 py-3"><%= customer.user.email %></td>
+              <td class="px-8 py-3"><%= customer.orders.size %></td>
               <td class="py-3">
                 <div class="flex space-x-2">
                   <%= link_to "More about", customer, class: btn_simple %>

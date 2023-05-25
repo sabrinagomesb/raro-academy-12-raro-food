@@ -11,6 +11,7 @@
       <th class="p-4 divide-x">Email</th>
       <th class="p-4 divide-x">CPF</th>
       <th class="p-4 divide-x">Birthday</th>
+      <th class="p-4 divide-x">Orders</th>
     </tr>
   </thead>
   <tbody class="bg-white divide-y">
@@ -19,6 +20,38 @@
       <td class="px-8 py-3"><%= customer.user.email %></td>
       <td class="px-8 py-3"><%= customer.user.cpf %></td>
       <td class="px-8 py-3"><%= customer.birthday %></td>
+      <td class="px-8 py-3">
+        <ul class="grid grid-cols-2">
+          <% customer.orders.each do |order| %>
+            <%= link_to order.id, order_path(order.id), class: "bg-gray-200 rounded text-sm font-bold rounded-md text-center p-2 px-4 m-1 hover:bg-gray-400" %>
+          <% end %>
+        </ul>
+      </td>
     </tr>
+  </tbody>
+</table>
+
+<% if customer.addresses.empty? %>
+  <div class="p-4 text-zinc-800 bg-white flex justify-center">
+    <strong>No addresses yet</strong>
+  </div>
+<% else %>
+  <table class="w-full whitespace-no-wrap">
+    <thead>
+      <tr class="w-full text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b bg-gray-100">
+        <th class="p-4 divide-x">Address</th>
+        <th class="p-4 divide-x">Details</th>
+        <th class="p-4 divide-x">City</th>
+      </tr>
+    </thead>
+    <tbody class="bg-white divide-y">
+      <% customer.addresses.each do |address| %>
+        <tr class="text-gray-700">
+          <td class="px-8 py-3"><%= address.name %></td>
+          <td class="px-8 py-3"><%= "#{address.public_place} #{address.number}, #{address.neighborhood}" %></td>
+          <td class="px-8 py-3"><%= "#{address.city.name}/#{address.state.acronym}" %></td>
+        </tr>
+      <% end %>
+    <% end%>
   </tbody>
 </table>
