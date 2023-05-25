@@ -1,4 +1,4 @@
-<div class="m-auto flex flex-col justify-between items-center bg-white shadow-lg rounded-lg overflow-hidden max-w-4xl p-4 mt-4">
+<div class="m-auto flex flex-col justify-between items-center bg-white shadow-lg rounded-lg overflow-hidden max-w-full p-6">
   <%= form_with model: @order, class: "w-full" do |form| %>
     <div class="w-100 flex flex-col gap-4" >
 
@@ -36,3 +36,5 @@
     </div>
   <% end %>
 </div>
+
+<%= javascript_include_tag "order", "data-turbo-track": "reload", defer: true %>

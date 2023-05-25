@@ -15,14 +15,14 @@ class OrderItemsController < ApplicationController
   # GET /orders/new
   def new
     @order_item = OrderItem.new
-    @default_order_id = @order.id
+    @order_item.order = @order
   end
 
   def edit; end
 
   def create
     @order_item = OrderItem.new(order_item_params)
-
+    @order_item.order = @order
     respond_to do |format|
       if @order_item.save
         format.html { redirect_to edit_order_url(@order), notice: 'Order item was successfully created.' }
@@ -64,10 +64,10 @@ class OrderItemsController < ApplicationController
   end
 
   def set_order_item
-    @order_item = @order.items.find(params[:id])
+    @order_item = OrderItem.find(params[:id])
   end
 
   def order_item_params
-    params.require(:order_item).permit(:dish_id, :order_id, :amount, :unit_price)
+    params.require(:order_item).permit(:dish_id, :amount, :unit_price)
   end
 end

@@ -31,7 +31,7 @@
               <td class="px-8 py-3"><%= order.id %></td>
               <td class="px-8 py-3"><%= order.customer.user.name %></td>
               <td class="px-8 py-3"><%= order.status %></td>
-              <td class="px-8 py-3"><%= order.total_price %></td>
+              <td class="px-8 py-3"><%= usa_currancy(order.total_price) %></td>
               <td class="py-3">
                 <div class="flex space-x-2">
                   <%= link_to "More about", order, class: btn_simple %>

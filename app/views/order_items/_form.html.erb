@@ -19,15 +19,6 @@
         </div>
       </div>
 
-      <%# order %>
-      <div class="sm:col-span-3">
-        <%= form.label :order_id, class: input_label %>
-        <div class="mt-2">
-          <%= form.number_field :order_id, class: input_text, value: @order.id, disabled: true %>
-          <%= form.hidden_field :order_id, value: @order.id %>
-        </div>
-      </div>
-
       <%# remove %>
       <div class="sm:col-span-3 mt-7">
         <% if form_method == :patch %>
@@ -39,7 +30,6 @@
     <% if order_item.errors.any? %>
       <div style="color: red">
         <h2><%= pluralize(order_item.errors.count, "error") %> prohibited this order_item from being saved:</h2>
-
         <ul>
           <% order_item.errors.each do |error| %>
             <li><%= error.full_message %></li>
@@ -49,7 +39,7 @@
     <% end %>
 
     <div class="mt-8 flex items-center justify-center gap-x-6">
-      <%= link_to "Cancel", orders_path, class: "text-sm font-semibold leading-6 text-gray-900" %>
+      <%= link_to "Cancel", edit_order_path(@order.id), class: "text-sm font-semibold leading-6 text-gray-900" %>
       <%= form.submit 'Save', class: btn_primary %>
     </div>
 
