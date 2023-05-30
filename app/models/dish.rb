@@ -9,7 +9,9 @@ class Dish < ApplicationRecord
 
   has_many :items, class_name: 'OrderItem', dependent: :destroy
 
-  validates :name, :description, :unit_price, presence: true
+  has_rich_text :content
+
+  validates :name, :content, :unit_price, presence: true
   validates :available, :active, inclusion: [true, false]
   validates :unit_price, numericality: { greater_than: 0 }
   validate :can_unit_price_be_changed?, on: :update, if: proc { unit_price_changed? }
