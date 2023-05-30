@@ -2,10 +2,7 @@
 
 Rails.application.routes.draw do
   resources :categories, :dishes, :customers, :chefs
-
-  resources :orders do
-    resources :order_items, as: "items"
-  end
+  resources :orders
 
   # Rota para os endereços do cliente
   get "/customers/:customer_id/addresses", to: "customers#addresses", as: "customer_addresses"
