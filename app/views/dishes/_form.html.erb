@@ -27,9 +27,9 @@
 
       <%# description %>
       <div class="sm:col-span-3">
-        <%= form.label :description, class: input_label  %>
+        <%= form.label :content, "Description", class: input_label  %>
         <div class="mt-2">
-          <%= form.text_area :description, rows: 4, cols: 40, class: input_text_area, placeholder: "Type the dish description" %>
+          <%= form.rich_text_area :content, class: input_text_area %>
         </div>
       </div>
 
@@ -58,9 +58,9 @@
 
       <%# categories %>
       <%= form.label :categories, class: input_label %>
-      <div class="w-full grid grid-cols-5 pr-4">
+      <div class="w-full grid grid-cols-6 pr-4">
         <%= form.collection_check_boxes :category_ids, Category.all, :id, :name do |cb| %>
-          <%= cb.label(class: "flex items-center gap-2 py-4 ml-2 text-xs font-light text-gray-900 dark:text-gray-300 border border-gray-300 rounded-md px-2 bg-gray-100 cursor-pointer m-2 hover:bg-gray-300") do %>
+          <%= cb.label(class: "flex items-center gap-2 py-4 ml-2 text-xs font-light text-gray-900 dark:text-gray-500 border border-gray-300 rounded-md px-2 bg-gray-100 cursor-pointer m-2 hover:bg-gray-300") do %>
             <%= cb.check_box(class: "w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2 min-w-[17px] max-w-[17px]") %>
             <%= cb.text %>
           <% end %>
