@@ -46,7 +46,7 @@ end
 administrators = Administrator.all
 
 # Create Coupons
-100.times do
+50.times do
   code = Faker::Alphanumeric.alpha(number: 10).upcase
   name = Faker::Commerce.product_name
   description = Faker::Lorem.paragraph
@@ -71,25 +71,27 @@ coupons = Coupon.all
   birthday = Faker::Date.birthday(min_age: 18, max_age: 65)
   customer = Customer.create!(birthday:, user:)
 
-  address = Address.create(
-    name: Faker::Address.street_suffix,
-    city_id: cities.sample.id,
-    public_place: Faker::Address.street_name,
-    zip_code: Faker::Number.number(digits: 8).to_s,
-    number: Faker::Address.building_number.to_s,
-    neighborhood: Faker::Address.community,
-    reference: Faker::Address.secondary_address,
-    complement: Faker::Address.secondary_address,
-    addressable: customer
-  )
+  3.times do
+    address = Address.create(
+      name: Faker::Address.street_suffix,
+      city_id: cities.sample.id,
+      public_place: Faker::Address.street_name,
+      zip_code: Faker::Number.number(digits: 8).to_s,
+      number: Faker::Address.building_number.to_s,
+      neighborhood: Faker::Address.community,
+      reference: Faker::Address.secondary_address,
+      complement: Faker::Address.secondary_address,
+      addressable: customer
+    )
 
-  telephone = Telephone.create(
-    number: Faker::Number.number(digits: 11).to_s,
-    contactable: customer
-  )
+    telephone = Telephone.create(
+      number: Faker::Number.number(digits: 11).to_s,
+      contactable: customer
+    )
 
-  customer.addresses << address
-  customer.telephones << telephone
+    customer.addresses << address
+    customer.telephones << telephone
+  end
 end
 
 customers = Customer.all
@@ -223,13 +225,13 @@ chefs = Chef.all
 
 dishes_seed.each do |dish, categories|
   name = dish
-  description = Faker::Food.description
+  content = Faker::Food.description
   unit_price = Faker::Number.decimal(l_digits: 2)
   chef = chefs.sample
   available = Faker::Boolean.boolean
   active = Faker::Boolean.boolean
 
-  new_dish = Dish.create!(name:, description:, unit_price:, available:, active:, chef:)
+  new_dish = Dish.create!(name:, content:, unit_price:, available:, active:, chef:)
   categories.each do |category_name|
     category = Category.find_or_create_by(name: category_name)
     new_dish.categories << category
