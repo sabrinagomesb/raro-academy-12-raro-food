@@ -1,4 +1,101 @@
-<h1> Novo pedido! </h1>
-<p><%= @chef.user.name %> O seu prato foi adicionado a um pedido.</p>
+<style>
+  /* Estilos gerais da tabela e do link */
 
-<%= link_to "Clique aqui para acessar o pedido", order_url(dish.items) %>
+  .container {
+    font-family: Arial, Helvetica, sans-serif;
+    max-width: 850px;
+    margin: 0 auto;
+    padding: 30px;
+    border-radius: 20px;
+    background-color: #E4E4E7;
+  }
+
+  h1, p , img{
+    text-align: center;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  table th,
+  table td {
+    padding: 5px;
+    border-bottom: 1px solid #ccc;
+    background-color: #f2f2f2;
+  }
+
+  p.link {
+    margin-top: 20px;
+  }
+
+  a.button {
+    color: #fff;
+    background-color: #E54033;
+    padding: 10px;
+    text-decoration: none;
+    border-radius: 5px;
+  }
+
+  .btn-container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-evenly;
+  }
+
+  img.logo {
+    display: block;
+    margin: 0 auto;
+  }
+</style>
+
+<main class="container">
+  <img src="http://localhost:3000/logo.png" alt="Logo  Raro Food" width="60" class="logo">
+
+  <h1 style="margin-bottom: 10px;">New order!</h1>
+  <p><%= @dish.chef.user.name %>, your dish has been added to an order!</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Order</th>
+        <th>Customer</th>
+        <th>Dish</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="text-align: center;">
+          <%= @order_item.order.id %>
+        </td>
+        <td>
+          <strong>Name:</strong>
+          <%= @customer.user.name %>
+          <br>
+          <strong>Email:</strong>
+          <%= @customer.user.email %>
+        </td>
+        <td>
+          <strong>Name:</strong>
+          <%= @dish.name %>
+          <br>
+          <strong>Description:</strong>
+          <%= @dish.description %>
+          <br>
+          <strong>Unit Price:</strong>
+          <%= @dish_price %>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="btn-container">
+    <p class="link">
+      <%= link_to "Click to see the dish", dish_url(@dish.id), class: "button" %>
+    </p>
+    <p class="link">
+      <%= link_to "Click to see the order", order_url(@order_item.order.id), class: "button" %>
+    </p>
+  </div>
+</main>
