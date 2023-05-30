@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class OrdersController < ApplicationController
+  before_action :authenticate_admin!
   before_action :set_order, only: %i[show edit update destroy]
 
   # GET /orders or /orders.json
@@ -14,6 +15,7 @@ class OrdersController < ApplicationController
   # GET /orders/new
   def new
     @order = Order.new
+    @order.items.build
   end
 
   # GET /orders/1/edit
@@ -66,6 +68,6 @@ class OrdersController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def order_params
-    params.require(:order).permit(:total_price, :freight_price, :status, :customer_id, :coupon_id, :delivery_address_id)
+    params.require(:order).permit(:total_price, :customer_id, :delivery_address_id, items_attributes: %i[id dish_id amount _destroy])
   end
 end

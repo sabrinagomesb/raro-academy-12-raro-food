@@ -2,6 +2,7 @@
 
 class CustomersController < ApplicationController
   include ControllersHelper
+  before_action :authenticate_admin!
   before_action :set_customer, only: %i[show edit update destroy]
 
   # GET /customers or /customers.json

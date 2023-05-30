@@ -2,6 +2,7 @@
 
 class ChefsController < ApplicationController
   include ControllersHelper
+  before_action :authenticate_admin!
   before_action :set_chef, only: %i[show edit update destroy]
   before_action :set_approver, only: %i[new create edit update]
 
