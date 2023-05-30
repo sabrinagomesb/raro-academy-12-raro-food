@@ -1,45 +1,28 @@
-# Prática 01 - Semana 11
+Prática 01 - Semana 12
 
-Nesse exercício iremos abordar o conteúdo apresentado nas aulas desta semana 11.
+Nesse exercício iremos abordar o conteúdo apresentado nesta semana 12.
 
-Daremos continuidade ao desenvolvimento da nossa aplicação RaroFood, agora aplicando os conhecimentos adquiridos sobre Views.
-
-Vocês deverão desenvolver algumas das telas utilizadas na aplicação, além de uma área para conteúdo restrito através da GEM Devise, conforme vimos durante as aulas da última semana.
-
-Segue o link de acesso aos wireframes contendo o fluxo proposto:
-<https://drive.google.com/file/d/1SHRJgKFDVwzCxp2foO-V911MRXzazLtj/view?usp=share_link>
+Daremos continuidade ao desenvolvimento da nossa aplicação RaroFood, agora aplicando os conhecimentos adquiridos sobre Mailers, Jobs, Hotwire e Storage.
 
 O que será considerado na avaliação dessa atividade:
 
-1. Implementação das telas utilizando tags html de forma semântica, bem como componentes coerentes com os dados e seus respectivos atributos. Uma dica é consultar a documentação w3schools que contém informações detalhadas sobre o uso de cada tag.
+1. Implementação do envio de um e-mail assíncrono para o chefe notificando que um novo prato foi adicionado a um determinado pedido. Neste e-mail devem conter as seguintes informações: código do pedido, nome e e-mail do cliente, nome, descrição e preço unitário do prato. Além disso, deverão ser fornecidos dois links: um para o pedido e outro para o prato solicitado. Caso ainda não exista, será necessário criar rotas, controllers e views (simples e sem estilização) para o redirecionamento a partir do e-mail para visualização do prato e pedido, respectivamente. Utilizem os recursos de views/partials que aprendemos para e-mail. Uma estilização para o e-mail será considerada para avaliação.
 
-2. Uso correto dos métodos e helpers fornecidos pelo Rails para construção de formulários, telas e respostas às requisições. Seguem os links dos slides abordados nesta semana:
+2. Implementação de um Job enfileirado em uma queue chamada dishes quando o preço unitário de um prato é atualizado. Esse Job deverá atualizar o preço unitário dos itens dos pedidos que referenciam esse prato e o preço total do pedido. Essas atualizações deverão ocorrer apenas para os pedidos que estejam com o status Iniciado (started). Organizem em uma estrutura adequada e limpa.
 
-Aula 6 - Views
-<https://docs.google.com/presentation/d/1-RNaKd41tcnj5aj7OX-tkN4nkExmheSfBdckUhhJr58/edit?usp=share_link>
+3. Hotwire: Você deverá atualizar a tela de cadastro de pedidos, adicionando o recurso de itens do pedido de forma dinâmica, utilizando Turbo Streams ou Stimulus Components (https://www.stimulus-components.com/docs/stimulus-rails-nested-form).
 
-Aula 7 - Views - Layouts
-<https://docs.google.com/presentation/d/1pvBkYg8b5AOgfOHl6IsuZzflWO1-5-zuVomlkFtThfw/edit?usp=share_link>
-
-Aula 8 - Views - Helpers
-<https://docs.google.com/presentation/d/1zXz6CHZ4FHVwTammpYEjac2RJFaEmuEC3ES7SzTeeLk/edit?usp=share_link>
-
-Aula 9 - Forms
-<https://docs.google.com/presentation/d/1_n1IjwA5ZAVamw14Une37B5yRf1ZjdI9AIDLZbP5ROg/edit?usp=share_link>
-
-3. As telas precisam estar funcionais, manipulando e registrando os dados corretamente.
-
-4. Assim como na atividade da semana 6, estaremos avaliando também a formatação visual das telas. Para isso você poderá utilizar Tailwind, SASS ou mesmo CSS puro na estilização e harmonia do design.
-
-5. Todas as telas propostas no wireframe, precisam estar em uma área restrita, acessível através de email e senha, conforme padrão adotado na implementação da GEM Devise.
+4. Storage: Implementar o upload de fotos, bem como o console de ferramentas para estilização do texto (WYSIWYG), relacionado a descrição dos pratos (Dishes). Para isso, utilize os recursos do Action Text e Active Storage.
+   Documentação: https://guiarails.com.br/action_text_overview.html
 
 Observações:
+Vocês podem utilizar a versão mais recente do projeto disponibilizada no repositório abaixo, ou seguir com a implementação realizada nas atividades anteriores:
+https://git.raroacademy.com.br/turmas-ruby/ruby-turma1/ruby-alunos/raro-food
 
-    Vocês podem utilizar a versão mais recente do projeto disponibilizada no repositório abaixo, ou mesmo seguir com o desenvolvimento da aplicação criada na semana anterior:
-    https://git.raroacademy.com.br/turmas-ruby/ruby-turma1/ruby-alunos/raro-food
+Segue também o link para o RaroClass, onde adicionamos diversos recursos semelhantes aos solicitados nessa atividade:
+https://github.com/wilfrank84/raroclass
 
 Como deverá ser entregue:
-
 Até a data de entrega do exercício, você deverá realizar um fork do repositório em sua conta privada do gitlab da Raro Academy, ou clonar sua aplicação local, realizando todo o desenvolvimento da nossa prática e publicar seu conteúdo na branch main.
 
 Para entrega no classroom, vocês devem anexar o link para esse repositório.
