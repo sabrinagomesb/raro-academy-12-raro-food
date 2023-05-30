@@ -35,8 +35,16 @@ module TailwindHelpers
     'block w-full px-4 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-red-600 sm:text-sm sm:leading-6'
   end
 
+  def input_text_full
+    input_text + ' w-full'
+  end
+
   def select_classes
     'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2'
+  end
+
+  def select_classes_full
+    select_classes + ' w-full'
   end
 
   def input_label

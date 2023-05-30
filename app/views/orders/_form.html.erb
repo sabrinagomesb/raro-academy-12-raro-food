@@ -1,23 +1,57 @@
-<div class="m-auto flex flex-col justify-between items-center bg-white shadow-lg rounded-lg overflow-hidden max-w-full p-6">
-  <%= form_with model: @order, class: "w-full" do |form| %>
+<div class="m-auto flex flex-col justify-between items-center bg-white shadow-lg rounded-lg overflow-hidden max-w-3xl p-6">
+  <%= form_with model: @order, class: "w-full", data: { controller: 'nested-form', nested_form_wrapper_selector_value: '.nested-form-wrapper' } do |form| %>
     <div class="w-100 flex flex-col gap-4" >
+      <fieldset class="mt-4">
 
-      <%# customer %>
-      <div class="sm:col-span-3">
-        <%= form.label 'Customer', class: input_label %>
-        <div class="mt-2">
-          <%= form.collection_select :customer_id, Customer.all, :id, proc { |customer| customer.user.name }, {prompt: 'Select a customer'}, {class: select_classes, id: 'customer-select'} %>
+        <legend class="text-xl font-bold">Customer informations</legend>
+
+        <div class="flex justify-start gap-8">
+          <%# customer %>
+          <div class="sm:col-span-3 flex-1">
+            <%= form.label 'Name', class: input_label %>
+            <div class="mt-2">
+              <%= form.collection_select :customer_id, Customer.all, :id, proc { |customer| customer.user.name }, {prompt: 'Select a customer'}, {class: select_classes_full, id: 'customer-select', disabled: form.object.persisted?} %>
+            </div>
+          </div>
+
+          <%# customer address %>
+          <% if form.object.new_record?%>
+            <div class="sm:col-span-3 flex-1">
+              <%= form.label 'Delivery address', class: input_label %>
+              <div class="mt-2">
+                <%= form.select :delivery_address_id, {}, { prompt: 'Select a customer address' }, { class: select_classes_full, id: 'address-select' } %>
+              </div>
+            </div>
+          <% else %>
+            <div class="sm:col-span-3 flex-1">
+              <%= form.label 'Address', class: input_label %>
+              <div class="mt-2">
+                <%= form.select :delivery_address_id, options_for_select(@order.customer.addresses.map { |address| [address_in_one_line(address), address.id] }, @order.delivery_address_id), { prompt: 'Select an address' }, { class: select_classes_full } %>
+              </div>
+            </div>
+          <% end %>
         </div>
       </div>
+    </fieldset>
 
-      <%# customer address %>
-      <div class="sm:col-span-3">
-        <%= form.label 'Delivery address', class: input_label %>
-        <div class="mt-2">
-          <%= form.select :delivery_address_id, {}, { prompt: 'Select a customer address' }, { class: select_classes, id: 'address-select' } %>
-        </div>
+    <template data-nested-form-target="template">
+      <%= form.fields_for :items, OrderItem.new, child_index: 'NEW_RECORD' do |item_fields| %>
+        <%= render "item_form", f: item_fields %>
+      <% end %>
+    </template>
+
+    <fieldset class="mt-4">
+      <div class="flex justify-between">
+        <legend class="text-xl font-bold">Items</legend>
+        <button type="button" data-action="nested-form#add" class="bg-transparent hover:bg-gray-500 text-gray-700 font-semibold hover:text-white py-2 px-4 border border-gray-500 hover:border-transparent rounded-md cursor-pointer transition duration-300 ease-in-out" >Add item</button>
       </div>
-    </div>
+
+      <div data-nested-form-target="target"></div>
+
+      <%= form.fields_for :items do |item_fields| %>
+        <%= render "item_form", f: item_fields %>
+      <% end %>
+    </fieldset>
 
     <% if order.errors.any? %>
       <div class="text-red-700 text-xs w-48 pt-4">
@@ -30,6 +64,7 @@
         </ul>
       </div>
     <% end %>
+
     <div class="mt-6 flex items-center justify-center gap-x-6">
       <%= link_to "Cancel", orders_path, class: "text-sm font-semibold leading-6 text-gray-900" %>
       <%= form.submit 'Save', class: btn_primary %>

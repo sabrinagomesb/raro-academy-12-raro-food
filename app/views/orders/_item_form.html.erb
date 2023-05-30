@@ -1,0 +1,21 @@
+<div class="nested-form-wrapper flex gap-4 w-full" data-new-record="<%= f.object.new_record? %>">
+  <%# dish %>
+  <div class="sm:col-span-3 flex-1">
+    <%= f.label 'Dish', class: input_label %>
+    <div class="mt-2">
+      <%= f.collection_select :dish_id, Dish.where(active: true, available: true), :id, :name, {}, { class: select_classes_full } %>
+    </div>
+  </div>
+
+  <%# amount %>
+  <div class="sm:col-span-3 flex-1">
+    <%= f.label :amount, class: input_label  %>
+    <div class="mt-2">
+      <%= f.number_field :amount, class: input_text_full, placeholder: "How many dish do you want?", min: 1 %>
+    </div>
+  </div>
+
+  <button type="button" class=" mt-9 pb-2 w-[24px] h-[24px] font-bold bg-red-500 hover:bg-red-600 text-gray-50 rounded rounden-sm" data-action="nested-form#remove">X</button>
+
+  <%= f.hidden_field :_destroy %>
+</div>
