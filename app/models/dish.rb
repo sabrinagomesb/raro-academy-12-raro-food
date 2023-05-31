@@ -14,6 +14,8 @@ class Dish < ApplicationRecord
   validates :unit_price, numericality: { greater_than: 0 }
   validate :can_unit_price_be_changed?, on: :update, if: proc { unit_price_changed? }
 
+  after_commit :enqueue_price_update_job, on: :update
+
   scope :costs_more_than, ->(amount) { where('unit_price > ?', amount) }
   scope :active, -> { where(active: true) }
   scope :available, -> { where(available: true) }
@@ -25,6 +27,11 @@ class Dish < ApplicationRecord
   end
 
   private
+
+  def enqueue_price_update_job
+    price = unit_price.to_f
+    Dishes::UpdatePriceJob.perform_later(id, price)
+  end
 
   def can_unit_price_be_changed?
     return if OrderItem.order_items_by_dishes_on_finished_orders(id).blank?
