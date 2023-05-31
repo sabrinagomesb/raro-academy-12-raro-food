@@ -16,7 +16,7 @@ Rails.application.routes.draw do
                       }
 
   authenticated :admin do
-    root "orders#index"
+    root "dishes#index"
   end
 
   unauthenticated do
