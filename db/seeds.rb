@@ -232,9 +232,19 @@ dishes_seed.each do |dish, categories|
   active = Faker::Boolean.boolean
 
   new_dish = Dish.create!(name:, content:, unit_price:, available:, active:, chef:)
-  categories.each do |category_name|
-    category = Category.find_or_create_by(name: category_name)
-    new_dish.categories << category
+
+  # Add cover_image field
+  file = "#{rand(1..20)}.jpg"
+  cover_image_path = "db/foods/#{file}"
+  new_dish.cover_image.attach(io: File.open(cover_image_path), filename: file)
+
+  if new_dish.save
+    categories.each do |category_name|
+      category = Category.find_or_create_by(name: category_name)
+      new_dish.categories << category
+    end
+  else
+    puts "Error saving dish: #{new_dish.errors.full_messages.join(', ')}"
   end
 end
 
