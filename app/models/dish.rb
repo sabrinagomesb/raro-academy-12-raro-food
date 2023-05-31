@@ -32,6 +32,5 @@ class Dish < ApplicationRecord
   def enqueue_price_update_job
     price = unit_price.to_f
     Dishes::UpdatePriceJob.perform_later(id, price)
-    Category.create!(name: 'New test category')
   end
 end
