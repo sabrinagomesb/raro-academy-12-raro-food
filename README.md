@@ -1,84 +1,92 @@
-- [Views - Raro Food](#views---raro-food)
-  - [Objetivos](#objetivos)
-  - [Desenvolvimento](#desenvolvimento)
-    - [Telas de listagem](#telas-de-listagem)
-    - [Chef / Customer](#chef--customer)
-    - [Dish](#dish)
-    - [Order / Order Items](#order--order-items)
-    - [Category](#category)
-  - [Setup](#setup)
-    - [Acesso](#acesso)
+# Mailer / Job / Hotwire / Active Storage - Raro Food
 
-# Views - Raro Food
-
-O projeto inicia a implementação de telas da aplicação Raro Food que tem sido desenvolvida desde a semana 7 da turma de Ruby on Rails - Raro Academy.
+Nesse projeto foram feitas algumas implementações, porém toda sua base de modelagem, controller e views foram clonados do exercício da semana 11. Na sequência as novas funcionalidades referentes a Mailer, Job, Hotwire e Active Storage serão detalhadas.
 
 ## Objetivos
 
 Tendo como base o [enunciado do exercício](./.gitlab/enunciado.md), os objetos são:
 
-- [x] Implementar as [telas sugeridas](https://drive.google.com/file/d/1SHRJgKFDVwzCxp2foO-V911MRXzazLtj/view) utilizando tags html de forma semântica, bem como componentes coerentes com os dados e seus respectivos atributos;
-- [x] Usar corretamente métodos e helpers fornecidos pelo Rails para construção de formulários, telas e respostas às requisições;
-- [x] Apresentar telas funcionais que manipulem e registre dados corretamente;
-- [x] Utilizar Tailwind, SASS ou CSS puro para estilização e harmonia do design;
-- [x] Implementar Gem Devise;
-- [x] Restringir o acesso da telas para que estejam acessíveis através de email e senha.
+- [x] Implementar envio de e-mail assíncrono para o chefe notificando que um novo prato foi adicionado a um determinado pedido. No e-mail deve conter:
+  - [x] Código do pedido;
+  - [x] Nome e e-mail do cliente;
+  - [x] Nome, descrição e preço unitário do prato;
+- [x] Implementar Job enfileirado em uma _queue_ chamada "dishes". O Job deverá:
+  - [x] Atualizar o **preço unitário** dos itens nos pedidos que possuem o prato que foi atualizado;
+  - [x] Atualizar o **preço total** dos pedidos que possuem o prato que foi atualizado;
+  - [x] Aplicar as atualizações mencionadas apenas nos pedidos com status _started_.
+- [x] Atualizar a tela de edição de pedidos para que a adição de _itens do pedido_ seja realizada de forma dinâmica, utilizando Stimulus Components;
+- [x] Implementar o upload de fotos e o console de ferramentas para estilização de texto (WYSIWYG) para entidade Dish.
 
 ## Desenvolvimento
 
-Para iniciar a atividade foi realizado um clone do repositório da aplicação Raro Food disponível no GitLab da Raro Academy, dessa forma o desenvolvimento foi realizado a partir da modelagem estabelecida e sem implementação prévia de controllers. O desenvolvimento foi todo realizado utilizando o inglês, por isso as telas também estão nesse padrão. Dessa forma, caso for preciso, pode ser utilizada a gem I18n para traduzir o sistema para um outro idioma ou realizar o suporte para múltiplas línguas.
+Para iniciar a atividade foi realizado um clone do repositório da atividade entregue para a semana 11, que pode ser verificado [aqui](https://git.raroacademy.com.br/sabrina.gomes/sabrina-gomes-exercicio-semana-11). Em seguida estão os detalhes de cada uma das implementações.
 
-Abaixo estão listados outros pontos importantes referente ao desenvolvimento da atividade.
+### Mailer
 
-### Telas de listagem
+Para implementação do mailer foi utilizado o MailCatcher, que simula um servidor de e-mail e os exibe em uma interface web. Para instalar o MailCatcher foi utilizado o comando `gem install mailcatcher` e para iniciar o servidor foi utilizado o comando `mailcatcher`. A interface web pode ser acessada através do endereço `http://localhost:1080/`.
 
-- No projeto clonado de base já havia um `seeds.rb` com informações de States e Cities, esse arquivo foi incrementado para popular todas as outras tabelas do banco de dados utilizando a gem [Faker](https://github.com/faker-ruby/faker) na sua versão mais recente. Dessa forma, conseguimos visualizar várias informações nas telas de listagem.
+O próximo passo foi criar o arquivo `order_item_mailler` na pasta `app/mailers` e definir o método `order_item_added` que recebe como parâmetro o objeto `order_item`. Nesse método foi definido o e-mail do destinatário e o assunto, além de incluir as variáveis que precisam estar disponíveis para serem chamadas no template do e-mail. O arquivo `order_item_added.html.erb` contém o HTML do e-mail que será enviado, nele foram utilizadas as variáveis `@order` e `@order_item` e realizada a estilização com CSS.
 
-### Chef / Customer
+Por fim, no model `order_item.rb` foi adicionado o callback `after_commit` que chama o método `order_item_added` do mailer. Dessa forma, toda vez que um novo item for adicionado a um pedido o e-mail será enviado. No MailCatcher é possível visualizar os e-mails enviados, demonstrado abaixo.
 
-- Tanto para o cadastro de Chef como para o cadastro de Customer foi necessário utilizar o método `build` nos seus respectivos _controllers_, pois na modelagem do projeto utilizado essas duas entidades herdam atributos da entidade User. Ambas também tem relação com a entidade Address, sendo que o Chef tem uma relação obrigatória, ele só pode ser criado se tiver um endereço associado, enquanto Customer pode ter vários endereços. No escopo de formulário foram definidos _fields_ para User e Address/Addresses.
-- Para ambos, além das telas de _Create_, também foram implementadas as telas funcionais de _Read_ e _Edit_. Na listagem há também a opção de _Delete_. Abaixo estão alguns exemplos.
-  <br>
   <div align="center">
-  <img src="./.gitlab/screenshots/list-chefs.png" alt="preview exerc" width="45%">
-  <img src="./.gitlab/screenshots/list-customer.png " alt="preview exerc" width="45%">
+    <img src="./.gitlab/gifs/mailer.gif" alt="preview exerc" width="90%">
   </div>
+
+### Job
+
+O primeiro passo para iniciar a implementação do Job solicitado foi realizar as configurações necessárias, seguindo os passos vistos em aula. Depois de instalar o Redis e o Sidekiq, foi criado o arquivo `sidekiq.rb` na pasta `initializers` com as informações necessárias. Já dentro de `config`foi criado o arquivo `sidekiq.yml` onde foi definida a queue `dishes`.
+
+O passo seguinte foi criar o arquivo `update_price_job.rb` e definir o método `perform`. Nesse método foi definido o código que deve ser executado quando o Job for chamado, que é atualizar o preço unitário dos itens nos pedidos que possuem o prato que foi atualizado e atualizar o preço total dos pedidos em questão. Para isso, foi utilizado o método `enqueue_price_update_job` criado no model `dish.rb`. Nesse mesmo model foi adicionado o callback `after_commit` que chama (apenas na ação de update) o método `perform` do Job. Dessa forma, toda vez que um prato for atualizado, o Job será chamado e realizará as atualizações necessárias.
+Para finalizar, foi realizada a remoção do callback `can_unit_price_be_changed?` para facilitar no teste do Job, já que ele não permitia que o preço unitário fosse alterado se o item em questão estivesse, além de um pedido com status _started_, em um pedido que já foi finalizado.
+
   <div align="center">
-  <img src="./.gitlab/screenshots/read-chef.png" alt="preview exerc" width="45%">
-  <img src="./.gitlab/screenshots/read-customer.png" alt="preview exerc" width="45%">
+    <img src="./.gitlab/gifs/job.gif" alt="preview exerc" width="90%">
   </div>
-  <br>
 
-### Dish
-
-- Para Dishes também há a tela de edição e a tela de listagem com o botão para exclusão, na tela de cadastro há o _select_ para definir o Chef associado aquele dish e checkboxes para as categorias e para os status de available e active.
+O painel de administração do Sidekiq pode ser acessado através do endereço `http://localhost:3000/sidekiq`, conforme imagem abaixo. Nas instruções de SETUP terá mais detalhes sobre como acessar o painel.
 
   <div align="center">
-    <img src="./.gitlab/screenshots/list-dishes.png" alt="preview exerc" width="45%">
-    <img src="./.gitlab/screenshots/edit-dish.png" alt="preview exerc" width="45%">
+    <img src="./.gitlab/screenshots/sidekiq.png" alt="preview exerc" width="90%">
   </div>
-    <br>
 
-### Order / Order Items
+### Hotwire
 
-- Na tela de cadastro de **Order** foi usado o _imput_ do tipo _select_, conforme a tela sugerida. Além disso, foi implementado também um segundo select que é preenchido automaticamente com as opções de endereços do Customer selecionado. Essa implementação foi realizada utilizando JavaScript, o arquivo `order.js` tem a função de realizar a requisição para trazer a informação do endereço e a função de ficar ouvindo quando o select do Customer é utilizado para disparar a requisição.
-- Ao acessar a tela de edição são exibidos os itens daquela _order_ e um botão para adicionar um novo item. Esse botão quando acionado carrega uma nova tela de _create_ da entidade Order Item, nessa tela de cadastro de item há um select que mostra apenas os _dishes_ quem tem o valor true para os atributos available e active. Os resultados podem ser visualizados abaixo.
+O [stimulus nested form](https://www.stimulus-components.com/docs/stimulus-rails-nested-form/) foi usado para que o formulário de Dish pudesse receber os novos itens de forma dinâmica, sem a necessidade de recarregar a página. Antes de iniciar os ajustes nos formulários foi necessário instalar o recurso citado através do comando `yarn add stimulus-rails-nested-for`.
+
+Para tornar o formulário preparado para receber o _stimulus componentes_ foi alterado o controller de _Orders_ tornando-o capaz de construir um novo pedido juntamente como seus itens usando método `build`, que foi disponibilizado no model de Order através do `accepted nested attributes`.
+
+Para que o formulário fosse capaz de receber os novos itens foi adicionado um `data-target` no form e um `data-action` no botão de adicionar item.
+
+O `data-target` foi usado para que o _stimulus componentes_ pudesse identificar no formulário o local onde os itens vão aparecer, já o `data-action` foi usado para que identificasse o botão de adicionar item.
+
+Foi criado ainda um template para o item do pedido `_item_form`, onde foi adicionado também um `data-target` no botão de remover item e os campos necessários para construir um novo item. O template é renderizado no formulário através da tag `template` com a propriedade `data-nested-form-target`.
 
   <div align="center">
-    <img src="./.gitlab/screenshots/create-order.png" alt="preview exerc" width="33%">
-    <img src="./.gitlab/screenshots/edit-order.png" alt="preview exerc" width="33%">
-    <img src="./.gitlab/screenshots/create-order-item.png" alt="preview exerc" width="33%">
+    <img src="./.gitlab/gifs/stimulus.gif" alt="preview exerc" width="90%">
   </div>
-    <br>
 
-### Category
+### Active Storage
 
-- E por fim, temos a implementação de listagem, criação, edição e deleção da entidade Category. Para que as categorias ficassem mais coerentes com os _dishes_, foi incluído no `seeds.rb` um objeto fazendo a associação correta entre Categorias e Dishes. Segue o resultado.
+#### Action Text
 
-  <div align="center">
-    <img src="./.gitlab/screenshots/categories-list.png" alt="preview exerc" width="33%">
-    <img src="./.gitlab/screenshots/category-create.png" alt="preview exerc" width="33%">
-    <img src="./.gitlab/screenshots/show-category.png" alt="preview exerc" width="33%">
+Primeiramente, foi necessário configurar o projeto instalando o Action Text, para isso foi utilizado o comando `rails action_text:install`. O próximo passo foi realizar as migrações necessárias com `rails db:migrate`.
+
+Para o sucesso da implementação do _rich text_ foram realizadas alterações nas três camadas (MVC) da aplicação, conforme descrito abaixo:
+
+- **Model**: O model Dish foi alterado para que aceite o campo `content`. Para isso foi adicionado o `has_rich_text :content`. Antes, no model Dish havia o campo `description`, a renomeação foi realizada conforme instruções passadas pelo professor.
+- **Controller**: Foi substituído o `params.require(:dish).permit(:name, :description)` por `params.require(:dish).permit(:name, :content)` para que o controller Dish aceite o campo `content`.
+- **View**: No formulário o campo `description` foi substituído por `content` e foi adicionado o `rich_text_area`.
+
+#### File - Image Tag
+
+Para a implementação da imagem de capa do Dish foi necessário realizar as seguintes alterações:
+
+- **Model**: Foi adicionado o `has_one_attached :image_cover` para que o model Dish tenha uma imagem.
+- **View**: No formulário foi adicionado o `file_field` para que o usuário possa selecionar a imagem de capa do prato. No `show.html.erb` foi adicionado o `image_tag` para que a imagem seja exibida.
+
+ <div align="center">
+    <img src="./.gitlab/gifs/active-text.gif" alt="preview exerc" width="90%">
   </div>
 
 ## Setup
@@ -88,15 +96,33 @@ O projeto foi realizado utilizando as versões:
 - ruby 3.1.2;
 - rails 7.0.4.3.
 
-Antes de iniciar a aplicação, é necessário exportar as variáveis de ambientes no terminal, de acordo com seu acesso pessoal ao MySQL:
+Antes de executar a aplicação é necessário realizar as seguintes configurações.
+
+#### Arquivo .env
+
+Acesse na raiz do projeto o arquivo `.env` e adicione as seguintes variáveis de ambiente:
 
 ```bash
-  export MYQSL_USER=SEU_USUARIO
-  export MYQSL_PASSWORD=SUA_SENHA
-  export MYQSL_HOST=localhost
+  # Variáveis MYSQL
+  MYQSL_USER=SEU_USUARIO
+  MYQSL_PASSWORD=SUA_SENHA
+  MYQSL_HOST=localhost
+  # Variáveis Sidekiq
+  SIDEKIQ_USERNAME=rarofood
+  SIDEKIQ_PASSWORD=@r@r02023
 ```
 
-Recomenda-se também a execução da seguinte sequência de comandos:
+#### MailCatcher
+
+Instale globalmente o MailCatcher com o comando `gem install mailcatcher`. Para iniciar o MailCatcher execute o comando `mailcatcher` e acesse no navegador o endereço `http://localhost:1080/`.
+
+#### Redis
+
+Para rodar a aplicação corretamente é necessário instalar o Redis na versão 6.2 ou superior. Verifique a versão instalada com o comando `redis-server -v`. Caso não tenha instalado, siga a [documentação](https://redis.io/docs/getting-started/) de acordo com o seu sistema operacional.
+
+#### Instalação de dependências e banco de dados
+
+Recomenda-se a execução da seguinte sequência de comandos:
 
 ```bash
   bundle install
@@ -106,8 +132,20 @@ Recomenda-se também a execução da seguinte sequência de comandos:
   rails db:seed
 ```
 
-Para iniciar o servidor recomenda-se a utilização do comando `./bin/dev`, pois ele garante que os assets serão todos devidamente processados.
+Inicie utilizando o comando `./bin/dev` e acesse no navegador o endereço `http://localhost:3000/`.
+
+Por último, para que o Sidekiq funcione corretamente é necessário iniciar o Redis e o Sidekiq. Para isso, abra um novo terminal e execute o comando `redis-server & bundle exec sidekiq -C config/sidekiq.yml`
 
 ### Acesso
 
-- Usuário root: email: root@root.com, password: root@123
+- **Aplicação**
+
+  - `http://localhost:3000/`
+
+    - email: root@root.com, password: root@123
+
+  - `http://localhost:3000/sidekiq`
+    - username: .env -> SIDEKIQ_USER , password: .env -> SIDEKIQ_PASSWORD
+
+- **MailCatcher**
+  - `http://localhost:1080/`
