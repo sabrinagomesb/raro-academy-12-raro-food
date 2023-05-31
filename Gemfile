@@ -56,6 +56,9 @@ gem "image_processing", "~> 1.2"
 # Use users authentication
 gem 'devise'
 
+# Jobs
+gem 'sidekiq'
+
 group :development, :test do
   # Load environment variables from `.env`
   gem 'dotenv-rails', require: 'dotenv/rails-now'
