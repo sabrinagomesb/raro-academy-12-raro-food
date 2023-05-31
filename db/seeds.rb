@@ -244,7 +244,7 @@ dishes_seed.each do |dish, categories|
       new_dish.categories << category
     end
   else
-    puts "Error saving dish: #{new_dish.errors.full_messages.join(', ')}"
+    Rails.logger.debug { "Error saving dish: #{new_dish.errors.full_messages.join(', ')}" }
   end
 end
 
@@ -259,7 +259,14 @@ dishes_available = Dish.where(active: true).where(available: true)
   total_price = 0
   coupon = coupons.sample
 
-  order = Order.create!(customer:, delivery_address:, total_price:, freight_price:, status:, coupon:)
+  order = Order.new(
+    customer:,
+    delivery_address:,
+    total_price:,
+    freight_price:,
+    status:,
+    coupon:
+  )
 
   dish = dishes_available.sample
   amount = Faker::Number.between(from: 1, to: 5)
@@ -272,8 +279,14 @@ dishes_available = Dish.where(active: true).where(available: true)
     order.total_price = 0 if order.total_price.negative?
   end
 
-  OrderItem.create!(order_id: order.id, dish_id: dish.id, amount:, unit_price:)
+  order_item = order.items.build(
+    dish:,
+    amount:,
+    unit_price:
+  )
+
   order.save!
+  order_item.save!
 end
 
 orders = Order.all
