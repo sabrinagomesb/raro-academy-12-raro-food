@@ -9,7 +9,7 @@ module Dishes
       return if @dish.blank?
 
       # get the orders that have the dish
-      started_orders = Order.joins(:items).where(status: :started, items: { dish_id: 1 })
+      started_orders = Order.joins(:items).where(status: :started, items: { dish_id: })
       started_orders.each do |order|
         order.items.each do |item|
           if item.dish_id == dish_id
