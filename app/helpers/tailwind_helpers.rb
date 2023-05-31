@@ -22,6 +22,10 @@ module TailwindHelpers
     'text-red-500 hover:text-red-700 font-bold p-2 transition duration-300 ease-in-out'
   end
 
+  def btn_simple_white
+    'text-gray-50 hover:text-gray-200 font-bold p-2 transition duration-300 ease-in-out'
+  end
+
   # Forms classes
   def mobile_item_menu_classes
     'text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium'
