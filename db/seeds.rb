@@ -234,7 +234,7 @@ dishes_seed.each do |dish, categories|
   new_dish = Dish.create!(name:, content:, unit_price:, available:, active:, chef:)
 
   # Add cover_image field
-  file = "#{rand(1..20)}.jpg"
+  file = "#{rand(1..26)}.jpg"
   cover_image_path = "db/foods/#{file}"
   new_dish.cover_image.attach(io: File.open(cover_image_path), filename: file)
 
