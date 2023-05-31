@@ -3,7 +3,7 @@
     <%= image_tag dish.cover_image, class: "object-cover h-48 w-full rounded-lg" if dish.cover_image.present? %>
   </div>
   <div class="flex justify-between">
-    <%= link_to "more about", dish, class: btn_primary %>
+    <%= link_to dish.name, dish, class: btn_primary %>
     <span class="text-right text-gray-70 text-3xl font-extralight"><%= usa_currancy dish.unit_price %></span>
   </div>
 </div>
