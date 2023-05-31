@@ -1,32 +1,45 @@
-<table class="w-full whitespace-no-wrap" id="<%= dom_id dish %>">
-  <thead>
-    <tr class="w-full text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b bg-gray-100">
-      <th class="p-4 divide-x">Description</th>
-      <th class="p-4 divide-x">Price</th>
-      <th class="p-4 divide-x">Availabe</th>
-      <th class="p-4 divide-x">Active</th>
-      <th class="p-4 w-1/6 divide-x">Chef</th>
-    </tr>
-  </thead>
-  <tbody class="bg-white divide-y">
-    <tr class="text-gray-700">
-      <td class="px-8 py-3"><%= dish.content %></td>
-      <td class="px-8 py-3"><%= usa_currancy(dish.unit_price) %></td>
-      <td class="px-8 py-3"><%= dish.available ? "YES" : "NO" %></td>
-      <td class="px-8 py-3"><%= dish.active ? "YES" : "NO" %></td>
-      <td class="py-8 py-3"><%= dish.chef.user.name %>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-<% if dish.categories.empty? %>
-  <span>It's not attached to any category</span>
-<% else %>
-  <div class="w-full">
-    <h3 class="text-left font-bold pb-4">Categories</h3>
-    <% dish.categories.each do |category| %>
-      <%= link_to category.name, category_path(category.id), class: label_tag %>
-    <% end %>
+<div class="w-full flex gap-4 mb-4">
+  <div class="w-full flex items-center flex-col gap-4">
+    <%= image_tag dish.cover_image, class: "object-cover w-full rounded-lg" if dish.cover_image.present? %>
   </div>
-<% end %>
+  <div class="flex flex-col justify-between">
+    <div class="w-full bg-gray-100 rounded rounded-md flex flex-col justify-between pb-4">
+      <table class="w-full whitespace-no-wrap" id="<%= dom_id dish %>">
+        <thead>
+          <tr class="w-full text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b bg-gray-100">
+            <th class="p-4 divide-x">Description</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y">
+          <tr class="text-gray-700">
+            <td class="px-8 py-3"><%= dish.content %></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="text-center text-sm mt-4">
+        <strong>Available?</strong>
+        <span><%= dish.available? ? "Yes" : "No" %></span>
+        <strong>Active?</strong>
+        <span><%= dish.active? ? "Yes" : "No" %></span>
+      </div>
+
+    </div>
+
+    <div class="text-center text-2xl">
+      <strong>PRICE</strong>
+      <span class="text-gray-70 text-6xl font-extralight"><%= usa_currancy dish.unit_price %></span>
+    </div>
+
+    <div class="w-full flex justify-center flex-wrap gap-2">
+      <% if dish.categories.empty? %>
+        <span>It's not attached to any category</span>
+      <% else %>
+        <% dish.categories.each do |category| %>
+          <%= link_to category.name, category_path(category.id), class: label_tag %>
+        <% end %>
+      <% end %>
+    </div>
+
+  </div>
+</div>

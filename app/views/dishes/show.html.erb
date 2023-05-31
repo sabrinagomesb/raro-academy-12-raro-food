@@ -5,7 +5,12 @@
 <% end %>
 
 <% content_for :new_button do %>
-  <%= link_to "New dish", new_dish_path, class: btn_primary %>
+  <div class="text-lg">
+    <strong>CHEF: </strong>
+    <span>
+      <%= @dish.chef.user.name%>
+    </span>
+  </div>
 <% end %>
 
 <div class="m-auto flex flex-col justify-between items-center bg-white shadow-lg rounded-lg overflow-hidden max-w-full p-6">

@@ -25,6 +25,15 @@
         </div>
       </div>
 
+      <%# cover image %>
+      <div class="sm:col-span-3">
+        <%= form.label :content, "Description", class: input_label  %>
+        <div class="mt-2">
+          <%= image_tag dish.cover_image, class: "w-1/3" if dish.cover_image.present? %>
+          <%= form.file_field :cover_image, class: input_text_area %>
+        </div>
+      </div>
+
       <%# description %>
       <div class="sm:col-span-3">
         <%= form.label :content, "Description", class: input_label  %>
