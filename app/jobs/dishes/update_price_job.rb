@@ -8,7 +8,6 @@ module Dishes
       @dish = Dish.find(dish_id)
       return if @dish.blank?
 
-      # get the orders that have the dish
       started_orders = Order.joins(:items).where(status: :started, items: { dish_id: })
       started_orders.each do |order|
         order.items.each do |item|
