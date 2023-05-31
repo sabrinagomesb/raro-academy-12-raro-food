@@ -68,7 +68,7 @@ module TailwindHelpers
   end
 
   def label_tag
-    'bg-zinc-600 text-gray-200 rounded rounded-lg p-2 mr-2 hover:bg-zinc-800 cursor-pointer transition duration-300 ease-in-out'
+    'bg-zinc-600 text-gray-200 rounded rounded-lg p-3 mr-2 hover:bg-zinc-800 cursor-pointer transition duration-300 ease-in-out'
   end
 
   def input_text_area
